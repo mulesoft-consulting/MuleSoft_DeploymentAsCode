@@ -9,7 +9,7 @@ jobs:
       - checkout
       - run: echo "hello world"
       - run: sudo npm install -g anypoint-cli
-      - run: sudo npm install -g js-yaml
+#      - run: sudo npm install -g js-yaml
       - deploy:
           command: | 
             chmod +x ./deployment.sh;

@@ -19,8 +19,8 @@ done < "$filename"
 echo "=== Downloading deployable package from repository"
 curl -O https://github.com/igor-repka/packages/raw/master/bid-processing-1.0.0-SNAPSHOT.zip
 
-#Inoke Anypoint Platform API to deploy application
-echo "=== Ivoking Anypoint Platform API to deploy application"
-node anypoint_deployment_api.js
+echo '=== Anypoint API is being invoked'
+user="$(anypoint-cli --username=$anypoint_username --password=$anypoint_password --output json account user describe)"
+echo $user
 
 echo "=== Deployment has finished successfully! ==="

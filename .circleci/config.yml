@@ -8,7 +8,7 @@ jobs:
       - run: echo "hello world"
       - deploy:
           command: | 
-            echo "it's working"
+            ./deployment.sh
 
 # deployment:
 #   production: # just a label; label names are completely up to you

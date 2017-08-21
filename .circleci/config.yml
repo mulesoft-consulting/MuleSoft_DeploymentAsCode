@@ -13,6 +13,10 @@ jobs:
             chmod +x ./deployment.sh;
             ./deployment.sh deployment_descriptor.conf;
 
+  dependencies:
+    pre:
+      - npm install -g anypoint-cli
+
 # deployment:
 #   production: # just a label; label names are completely up to you
 #     branch: master

@@ -8,8 +8,8 @@ jobs:
     steps:
       - checkout
       - run: echo "hello world"
-      - run: npm install -g anypoint-cli
-      - run: npm install js-yaml
+      - run: sudo npm install -g anypoint-cli
+      - run: sudo npm install -g js-yaml
       - deploy:
           command: | 
             chmod +x ./deployment.sh;

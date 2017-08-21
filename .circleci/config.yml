@@ -6,3 +6,6 @@ jobs:
      steps:
        - checkout
        - run: echo "hello world"
+   deployment:
+     commands:
+       - ./deployment.sh 

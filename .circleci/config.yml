@@ -6,9 +6,12 @@ jobs:
     steps:
       - checkout
       - run: echo "hello world"
-  deployment:
-    production: # just a label; label names are completely up to you
-      branch: master
-      commands:
+      - deploy:
+        command: echo "it's working"
+
+# deployment:
+#   production: # just a label; label names are completely up to you
+#     branch: master
+#     commands:
         #- ./deploy-to-production.sh
-        - echo "deployment prod"
+#        - echo "deployment prod"

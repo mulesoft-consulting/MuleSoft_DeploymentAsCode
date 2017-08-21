@@ -7,7 +7,8 @@ jobs:
       - checkout
       - run: echo "hello world"
       - deploy:
-        command: echo "it's working"
+        command: | 
+          echo "it's working"
 
 # deployment:
 #   production: # just a label; label names are completely up to you

@@ -10,8 +10,10 @@ jobs:
     production: # just a label; label names are completely up to you
       branch: master
       commands:
-        - ./deploy-to-production.sh
+        #- ./deploy-to-production.sh
+        - echo "deployment prod"
     staging:
       branch: staging
       commands:
-        - ./deploy-to-staging.sh
+        #- ./deploy-to-staging.sh
+        - echo "deployment staging"

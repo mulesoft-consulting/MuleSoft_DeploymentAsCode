@@ -11,11 +11,12 @@ jobs:
       - deploy:
           command: | 
             chmod +x ./deployment.sh;
-            ./deployment.sh deployment_descriptor.conf;
+            ./deployment.sh deployment_descriptor.yml;
 
     dependencies:
       pre:
         - npm install -g anypoint-cli
+        - npm install js-yaml
 
 # deployment:
 #   production: # just a label; label names are completely up to you

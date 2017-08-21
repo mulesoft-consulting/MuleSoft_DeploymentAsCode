@@ -1,0 +1,14 @@
+CloudHub:  
+  Env: "DEV"
+  Applications:
+    -
+      name: "bid-processing"
+      version: "1.0.0-SNAPSHOT"
+      worker-size: "1"
+      num-of-workers: "1"
+    -
+      name: "something"
+      version: "test1"
+      worker-size: "1"
+      num-of-workers: "1"
+

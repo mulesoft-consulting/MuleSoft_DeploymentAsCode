@@ -8,15 +8,17 @@ jobs:
     steps:
       - checkout
       - run: echo "hello world"
+      - run: npm install -g anypoint-cli
+      - run: npm install js-yaml
       - deploy:
           command: | 
             chmod +x ./deployment.sh;
             ./deployment.sh deployment_descriptor.yml;
 
-    dependencies:
-      pre:
-        - npm install -g anypoint-cli
-        - npm install --save js-yaml
+#    dependencies:
+#      pre:
+#        - npm install -g anypoint-cli
+#        - npm install --save js-yaml
 
 # deployment:
 #   production: # just a label; label names are completely up to you

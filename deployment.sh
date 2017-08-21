@@ -1,4 +1,4 @@
-echo " === Deployment has started! ==="
+echo "=== Deployment has started! ==="
 
 #check input arguments
 if [[ $# -eq 0 ]] ; then
@@ -21,5 +21,6 @@ curl -O https://github.com/igor-repka/packages/raw/master/bid-processing-1.0.0-S
 
 #Inoke Anypoint Platform API to deploy application
 echo "=== Ivoking Anypoint Platform API to deploy application"
+node anypoint_deployment_api.js
 
 echo "=== Deployment has finished successfuly! ==="

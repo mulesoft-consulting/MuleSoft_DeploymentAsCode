@@ -9,15 +9,15 @@ jobs:
       - checkout
       - run: echo "hello world"
       - run: sudo npm install -g anypoint-cli
-#      - run: sudo npm install -g js-yaml
+      - run: sudo npm install js-yaml
       - deploy:
           command: | 
             chmod +x ./deployment.sh;
             ./deployment.sh deployment_descriptor.yml;
 
-    dependencies:
-      override:
-        - npm install -g js-yaml
+#    dependencies:
+#      override:
+#        - npm install -g js-yaml
 
 # deployment:
 #   production: # just a label; label names are completely up to you

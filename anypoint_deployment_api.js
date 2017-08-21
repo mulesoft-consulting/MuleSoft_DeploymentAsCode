@@ -1,8 +1,8 @@
 console.log('--- Anypoint API is being invoked');
 
 //load libraries
-const yaml = require('js-yaml');
-const fs = require('fs');
+//const yaml = require('js-yaml');
+//const fs = require('fs');
 
 //get filename - passed as argument
 var filename = process.argv[2];
@@ -14,14 +14,14 @@ if(filename) {
 }
 
 //parse config file
-try {
+/*try {
     const config = yaml.safeLoad(fs.readFileSync(filename, 'utf8'));
     const indentedJson = JSON.stringify(config, null, 4);
     console.log(indentedJson);
 } catch (e) {
     console.log(e);
     process.exit(-1);
-}
+}*/
 
 
 //call anypoint cli API and parse results

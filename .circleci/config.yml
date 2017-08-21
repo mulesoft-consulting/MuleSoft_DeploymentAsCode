@@ -15,10 +15,9 @@ jobs:
             chmod +x ./deployment.sh;
             ./deployment.sh deployment_descriptor.yml;
 
-#    dependencies:
-#      pre:
-#        - npm install -g anypoint-cli
-#        - npm install --save js-yaml
+    dependencies:
+      override:
+        - npm install -g js-yaml
 
 # deployment:
 #   production: # just a label; label names are completely up to you

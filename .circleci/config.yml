@@ -7,5 +7,11 @@ jobs:
        - checkout
        - run: echo "hello world"
    deployment:
-     commands:
-       - ./deployment.sh 
+      production:
+        branch: master
+        commands:
+          - ./deployment.sh
+      staging:
+        branch: master
+        commands:
+          - ./deployment.sh

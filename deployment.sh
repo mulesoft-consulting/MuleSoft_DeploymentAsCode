@@ -15,9 +15,9 @@ curl -O https://github.com/igor-repka/packages/raw/master/bid-processing-1.0.0-S
 
 #Call Anypoint API to execute deployment and all the required configuration
 echo '=== Invoke Anypoint API'
-{
+{ #try
 	node anypoint_deployment_api.js $filename
-} || {
+} || { #catch
 	echo "=== ERROR: Error during deployment"
 	exit 1
 }

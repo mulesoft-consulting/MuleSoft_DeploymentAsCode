@@ -16,7 +16,7 @@ jobs:
     dependencies:
       pre:
         - npm install -g anypoint-cli
-        - npm install js-yaml
+        - npm install --save js-yaml
 
 # deployment:
 #   production: # just a label; label names are completely up to you

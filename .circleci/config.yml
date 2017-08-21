@@ -1,17 +1,17 @@
 version: 2
 jobs:
-   build:
-     docker:
-       - image: circleci/openjdk:8
-     steps:
-       - checkout
-       - run: echo "hello world"
-   deployment:
-      production:
-        branch: master
-        commands:
-          - ./deployment.sh
-      staging:
-        branch: master
-        commands:
-          - ./deployment.sh
+  build:
+    docker:
+      - image: circleci/openjdk:8
+    steps:
+      - checkout
+      - run: echo "hello world"
+  deployment:
+    production: # just a label; label names are completely up to you
+      branch: master
+      commands:
+        - ./deploy-to-production.sh
+    staging:
+      branch: staging
+      commands:
+        - ./deploy-to-staging.sh

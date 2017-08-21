@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
 #      - image: circleci/openjdk:8
-      - image: circleci/ubuntu-14.04-XXL-1239-04cfc8d
+      - image: circleci/build-image
     steps:
       - checkout
       - run: echo "hello world"

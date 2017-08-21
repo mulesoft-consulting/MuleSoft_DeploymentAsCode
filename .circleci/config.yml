@@ -12,8 +12,3 @@ jobs:
       commands:
         #- ./deploy-to-production.sh
         - echo "deployment prod"
-    staging:
-      branch: staging
-      commands:
-        #- ./deploy-to-staging.sh
-        - echo "deployment staging"

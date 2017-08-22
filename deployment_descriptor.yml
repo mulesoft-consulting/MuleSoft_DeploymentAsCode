@@ -9,6 +9,6 @@ CloudHub:
     -
       name: "something"
       version: "test1"
-      worker-size: "1"
+      worker-size: "2"
       num-of-workers: "1"
 

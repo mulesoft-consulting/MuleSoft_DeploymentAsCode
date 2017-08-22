@@ -6,9 +6,11 @@ CloudHub:
       version: "1.0.0-SNAPSHOT"
       worker-size: "1"
       num-of-workers: "1"
+      repo_endpoint: 'http://host/repo'
     -
       name: "something"
       version: "test1"
       worker-size: "2"
       num-of-workers: "1"
+      repo_endpoint: 'http://host/repo'
 

@@ -11,6 +11,6 @@ CloudHub:
       name: "something"
       version: "test1"
       worker-size: "2"
-      num-of-workers: "1"
+      num-of-workers: "3"
       repo_endpoint: 'http://host/repo'
 

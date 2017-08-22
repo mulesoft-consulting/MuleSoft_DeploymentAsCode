@@ -31,7 +31,7 @@ var result = exec('anypoint-cli --username=$anypoint_username --password=$anypoi
 
 console.log('Anypoint has responded - Reuslt: ' + result);
 
-//convert to JSON
+//convert json to object
 var objResult = JSON.parse(result);
 
 console.log('Result obj email: ' + objResult.Email);

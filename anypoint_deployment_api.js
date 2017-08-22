@@ -29,7 +29,7 @@ var exec = require('child_process').execSync;
 
 var result = exec('anypoint-cli --username=$anypoint_username --password=$anypoint_password --output json account user describe');
 
-console.log('Reuslt: ' + result);
+console.log('Anypoint has responded - Reuslt: ' + result);
 
 //convert to JSON
 var objResult = JSON.parse(result);

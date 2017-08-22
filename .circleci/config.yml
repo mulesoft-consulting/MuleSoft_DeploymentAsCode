@@ -8,6 +8,7 @@ jobs:
     steps:
       - checkout
       - run: echo "hello world"
+#TODO cache npm      
       - run: sudo npm install -g anypoint-cli
       - run: sudo npm install js-yaml
       - deploy:

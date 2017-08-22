@@ -3,7 +3,7 @@ CloudHub:
   Applications:
     -
       name: "bid-processing"
-      version: "1.0.0-SNAPSHOT"
+      version: "1.0.1-SNAPSHOT"
       worker-size: "1"
       num-of-workers: "1"
       repo_endpoint: 'http://host/repo'

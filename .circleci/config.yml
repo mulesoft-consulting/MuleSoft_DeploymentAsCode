@@ -2,8 +2,6 @@ version: 2
 jobs:
   build:
     docker:
-#      - image: circleci/openjdk:8
-#      - image: circleci/build-image
       - image: circleci/node:7
     steps:
       - checkout
@@ -14,10 +12,6 @@ jobs:
           command: | 
             chmod +x .muleci/deployment.sh;
             .muleci/deployment.sh deployment_descriptor.yml;
-
-#    dependencies:
-#      override:
-#        - npm install -g js-yaml
 
 # deployment:
 #   production: # just a label; label names are completely up to you

@@ -1,9 +1,9 @@
 CloudHub:  
-  Env: "DEV"
+  Env: "Sandbox"
   Applications:
     -
-      name: "bid-processing"
-      version: "1.0.1-SNAPSHOT"
+      name: "maven-project-ir"
+      version: "1.0.0-SNAPSHOT.zip"
       worker-size: "1"
       num-of-workers: "1"
       repo_endpoint: 'http://host/repo'

@@ -1,9 +1,19 @@
+// ===================================================================================
+// === Author: Igor Repka @ MuleSoft                                               ===
+// === Email: igor.repka@mulesoft.com                                              ===
+// === version: 0.1					                                               ===
+// === Description: 					                                           ===
+//     Script manages CloudHub deployment of applications configured in deployment ===
+//     descriptor configuration file.	 										   ===
+// ===================================================================================
+
 console.log('--- Anypoint API is being invoked');
 
 //load libraries
 const yaml = require('js-yaml');
 const fs = require('fs');
 const util = require('util');
+
 const PACKAGE_FOLDER = "packages/";
 
 //Child process for calling anypoint-cli
@@ -19,7 +29,9 @@ if(filename) {
 }
 
 var objConfig = parse_deployment_config_file(filename);
-console.log("Deployment is running for environment: " + objConfig.CloudHub.Env);
+const ENV = objConfig.CloudHub.Env;
+const ORGID = objConfig.CloudHub.Orgid;
+console.log("Deployment is running for environment: %s, Organisation: %s", ENV, ORGID);
 
 //run deployment logic for every application in config file
 for (const app of objConfig.CloudHub.Applications) {
@@ -38,14 +50,14 @@ console.log('--- Anypoint API: all changes applied successfully');
  */
 function deploy(application) {
 	console.log("### Running deployment of application: " + application.name);
-	var cloudAppDetails = get_application_details(objConfig.CloudHub.Env, application.name, exec);
+	var cloudAppDetails = get_application_details(application.name, exec);
 	downloadPackage(application.filename, application.repo_endpoint, exec);
 	if(cloudAppDetails == null) { //trigger new application deployment
 		console.log("Deploying: " + application.name);
-		//deploy_new_application(objConfig.CloudHub.Env, application.name, application.filename, exec); 		
+		deploy_new_application(application, exec); 		
 	} else if(is_application_update_required(application, cloudAppDetails)) { //redeploy or modify application
 		console.log("Updating: " + application.name);
-		redeploy_or_modify_application(objConfig.CloudHub.Env, application.name, application.filename, exec);
+		redeploy_or_modify_application(application, exec);
 	} else {
 		console.log("Application does NOT require any updates " +
 			"- the version on the CloudHub is the same as info available in deployment descriptor file: " +
@@ -89,17 +101,31 @@ function parse_deployment_config_file(filename) {
  * Function returns application details from CloudHub. 
  * If this is the first deployment of application null is returned.
  */
-function get_application_details(env, appName, execSync) {
+function get_application_details(appName, execSync) {
 	var command = util.format('anypoint-cli ' + 
 			'--username=$anypoint_username --password=$anypoint_password ' + 
 			'--environment=%s ' +
+			'--organization=%s ' +
 			'--output json ' +
-			'runtime-mgr cloudhub-application describe %s', env, appName);
+			'runtime-mgr cloudhub-application describe-json %s', ENV, ORGID, appName);
 
 	try {
 		var result = execSync(command);
 		console.log("Application details returned from CloudHub: " + result);
-		return result;
+
+//hack has to be implemented because response from anypoint-cli 'runtime-mgr cloudhub-application describe-json' is not a valid JSON.
+		result = result+"";
+		result = result.replace(/\s/g, ""); 			//remove all white spaces
+		result = result.replace(/'/g, "\""); 			//replace all ' by "
+		result = result.replace(/:/g, "\":");			//replace all : by ":
+		result = result.replace(/{(?:(?!}))/g, "{\"");  //replace {(?:(?!})) by {"
+		result = result.replace(/,/g, ",\""); 			//replace all , by ," 
+		result = result.replace(/\u001b\[32m/g, "");	//remove ansi escape sequence \u001b[32m
+		result = result.replace(/\u001b\[33m/g, "");	//remove ansi escape sequence \u001b[39m
+		result = result.replace(/\u001b\[39m/g, "");	//remove ansi escape sequence \u001b[33m
+		console.log("JSON prepared: " + result);
+
+		return JSON.parse(result);
 	} catch (e) {
 		const appNotFoundPattern = 'Error: No application with domain ' + appName + ' found.\n';
 		var tmpStdOut = e.stdout+"";
@@ -117,39 +143,74 @@ function get_application_details(env, appName, execSync) {
  * Function checks if there are any changes that would require application update.
  * Function compares details in deployment descriptor with details obtained from CloudHub.
  */
-function is_application_update_required(application, cloudAppDetails) {
-	return true;
+function is_application_update_required(app, cloudAppDetails) {	
+	//const filename = cloudAppDetails.fileName;
+	const workerSize = cloudAppDetails.workers.type.weight;
+	const numberOfWorkers = cloudAppDetails.workers.amount;
+	const runtime = cloudAppDetails.muleVersion.version;
+	const region = cloudAppDetails.region;
+	const properties = cloudAppDetails.properties;
+
+	if(app["worker-size"] != workerSize) {
+		return true;
+	}
+	if(app["num-of-workers"] != numberOfWorkers) {
+		return true;	
+	} 
+	if(app["runtime"] != runtime) {
+		return true;
+	}
+	if(app["region"] != region) {
+		return true;
+	}
+
+	//compare properties
+	var propertyKeys = Object.keys(properties);
+	for(const key of propertyKeys) {
+		console.log("Key: %s, Value: %s", key, properties[key]);
+		//be careful this interation would not catch the new property added to config file!!!!!!!!!
+	}
+
+	return false;
 }
 
-function deploy_new_application(env, appName, zipFileName, execSync) {
+function deploy_new_application(app, execSync) {
 	var command = util.format(
 		'anypoint-cli ' + 
 			'--username=$anypoint_username --password=$anypoint_password ' + 
 			'--environment=%s ' +
+			'--organization=%s ' +
 			//'--output json ' +
-			'runtime-mgr cloudhub-application deploy %s %s%s', env, appName, PACKAGE_FOLDER, zipFileName);
+			'runtime-mgr cloudhub-application deploy %s %s%s ' + 
+			'--workers %s --workerSize %s --region %s --runtime %s',
+			ENV, ORGID, app.name, PACKAGE_FOLDER, app.filename, app["num-of-workers"], app["worker-size"],
+			app.region, app.runtime);
 
 	try {
 		var result = execSync(command);
 	} catch (e) {
-		handle_error(e, "Cannot deploy new application: " + appName);
+		handle_error(e, "Cannot deploy new application: " + app.name);
 	}
 }
 
 /*
  * Modifies / redeploys the application on CloudHub
  */
-function redeploy_or_modify_application(env, appName, zipFileName, execSync) {
+function redeploy_or_modify_application(app, execSync) {
 	var command = util.format(
 		'anypoint-cli ' + 
 			'--username=$anypoint_username --password=$anypoint_password ' + 
 			'--environment=%s ' +
+			'--organization=%s ' +
 			//'--output json ' +
-			'runtime-mgr cloudhub-application modify %s %s%s', env, appName, PACKAGE_FOLDER, zipFileName);
+			'runtime-mgr cloudhub-application modify %s %s%s ' +
+			'--workers %s --workerSize %s --region %s --runtime %s',
+			ENV, ORGID, app.name, PACKAGE_FOLDER, app.filename, app["num-of-workers"], app["worker-size"],
+			app.region, app.runtime);
 	try {
 		var result = execSync(command);
 	} catch (e) {
-		handle_error(e, "Cannot update the application: " + appName);
+		handle_error(e, "Cannot update the application: " + app.name);
 	}
 }
 

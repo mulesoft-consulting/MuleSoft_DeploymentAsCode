@@ -1,5 +1,6 @@
 CloudHub:  
   Env: "DEV"
+  Orgid: "MuleSoft"
   Applications:
     -
       name: "maven-project-ir-ecotricity"
@@ -8,6 +9,9 @@ CloudHub:
       num-of-workers: "1"
       repo_endpoint: 'https://github.com/igor-repka/packages/raw/master/'
       filename: "maven-project-ir-1.0.0-SNAPSHOT.zip"
+      runtime: "3.8.5"
+      properties: ""
+      region: "eu-west-1"
     -
       name: "bid-processing-ir-ecotricity"
       version: "1.0.0-SNAPSHOT.zip"
@@ -15,4 +19,7 @@ CloudHub:
       num-of-workers: "1"
       repo_endpoint: 'https://github.com/igor-repka/packages/raw/master/'
       filename: "bid-processing-1.0.0-SNAPSHOT.zip"
+      runtime: "3.8.5"
+      properties: ""
+      region: "eu-west-1"
 

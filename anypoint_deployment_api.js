@@ -4,6 +4,7 @@ console.log('--- Anypoint API is being invoked');
 const yaml = require('js-yaml');
 const fs = require('fs');
 const util = require('util');
+const PACKAGE_FOLDER = "packages/";
 
 //Child process for calling anypoint-cli
 var exec = require('child_process').execSync;
@@ -40,13 +41,17 @@ function deploy(application) {
 	var cloudAppDetails = get_application_details(objConfig.CloudHub.Env, application.name, exec);
 	downloadPackage(application.filename, application.repo_endpoint, exec);
 	if(cloudAppDetails == null) { //trigger new application deployment
-		//deploy_new_application('DEV', 'maven-project-ir-ecotricity', 'maven-project-ir-1.0.0-SNAPSHOT.zip', exec); 
-		//TODO remove debug log and enable function invocation above
 		console.log("Deploying: " + application.name);
-	} else { //redeploy or modify application
+		//deploy_new_application(objConfig.CloudHub.Env, application.name, application.filename, exec); 		
+	} else if(is_application_update_required(application, cloudAppDetails)) { //redeploy or modify application
 		console.log("Updating: " + application.name);
+		//redeploy_or_modify_application(objConfig.CloudHub.Env, application.name, application.filename, exec);
+	} else {
+		console.log("Application does NOT require any updates " +
+			"- the version on the CloudHub is the same as info available in deployment descriptor file: " +
+			application.name);
 	}
-	console.log("### Application deployed successfully: " + application.name);
+	console.log("### Application deployment logic has finished successfully: " + application.name);
 }
 
 /*
@@ -54,9 +59,9 @@ function deploy(application) {
  */
 function downloadPackage(filename, repoEndpoint, execSync) {
 	console.log("Downloading the package for: " + filename);
-	var command = util.format('curl --create-dirs -o packages/%s ' +
-		'%s/%s', filename, repoEndpoint, filename);
-
+	var command = util.format('curl -Lk --create-dirs -o %s%s ' +
+		'%s%s', PACKAGE_FOLDER, filename, repoEndpoint, filename);
+	console.log("Command is being executed: " + command);
 	try {
 		execSync(command);
 	} catch (e) {
@@ -108,25 +113,49 @@ function get_application_details(env, appName, execSync) {
 	}
 }
 
+/*
+ * Function checks if there are any changes that would require application update.
+ * Function compares details in deployment descriptor with details obtained from CloudHub.
+ */
+function is_application_update_required(application, cloudAppDetails) {
+	return true;
+}
+
 function deploy_new_application(env, appName, zipFileName, execSync) {
 	var command = util.format(
 		'anypoint-cli ' + 
 			'--username=$anypoint_username --password=$anypoint_password ' + 
 			'--environment=%s ' +
-			'--output json ' +
-			'runtime-mgr cloudhub-application deploy %s %s', env, appName, zipFileName);
+			//'--output json ' +
+			'runtime-mgr cloudhub-application deploy %s %s%s', env, appName, PACKAGE_FOLDER, zipFileName);
 
 	try {
 		var result = execSync(command);
 	} catch (e) {
-		handle_error(e, "Cannot deploy new application.");
+		handle_error(e, "Cannot deploy new application: " + appName);
 	}
 }
 
-function redeploy_or_modify_application() {
-	console.log("function not supported yet");
+/*
+ * Modifies / redeploys the application on CloudHub
+ */
+function redeploy_or_modify_application(env, appName, zipFileName, execSync) {
+	var command = util.format(
+		'anypoint-cli ' + 
+			'--username=$anypoint_username --password=$anypoint_password ' + 
+			'--environment=%s ' +
+			//'--output json ' +
+			'runtime-mgr cloudhub-application modify %s %s%s', env, appName, PACKAGE_FOLDER, zipFileName);
+	try {
+		var result = execSync(command);
+	} catch (e) {
+		handle_error(e, "Cannot update the application: " + appName);
+	}
 }
 
+/*
+ * Exception handling
+ */
 function handle_error(e, message) {
 	var msg = typeof message != 'undefined' ? message : "";
 	console.log("Unknown error: " + msg + "\n" + e);

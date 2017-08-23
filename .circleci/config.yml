@@ -7,14 +7,13 @@ jobs:
       - image: circleci/node:7
     steps:
       - checkout
-      - run: echo "hello world"
 #TODO cache npm      
       - run: sudo npm install -g anypoint-cli
       - run: sudo npm install js-yaml
       - deploy:
           command: | 
-            chmod +x ./deployment.sh;
-            ./deployment.sh deployment_descriptor.yml;
+            chmod +x .muleci/deployment.sh;
+            .muleci/deployment.sh deployment_descriptor.yml;
 
 #    dependencies:
 #      override:

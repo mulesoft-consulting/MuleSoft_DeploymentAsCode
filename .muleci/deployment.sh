@@ -12,7 +12,7 @@ filename="$1"
 #Call Anypoint API to execute deployment and all the required configuration
 echo '=== Invoke Anypoint API'
 { #try
-	node anypoint_deployment_api.js $filename
+	node .muleci/anypoint_deployment_api.js $filename
 } || { #catch
 	echo "=== ERROR: Error during deployment"
 	exit 1

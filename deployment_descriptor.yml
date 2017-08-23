@@ -1,16 +1,18 @@
 CloudHub:  
-  Env: "Sandbox"
+  Env: "DEV"
   Applications:
     -
-      name: "maven-project-ir"
+      name: "maven-project-ir-ecotricity"
       version: "1.0.0-SNAPSHOT.zip"
       worker-size: "1"
       num-of-workers: "1"
-      repo_endpoint: 'http://host/repo'
+      repo_endpoint: 'https://github.com/igor-repka/packages/raw/master/'
+      filename: "maven-project-ir-1.0.0-SNAPSHOT.zip"
     -
-      name: "something"
-      version: "test1"
-      worker-size: "2"
-      num-of-workers: "3"
-      repo_endpoint: 'http://host/repo'
+      name: "bid-processing-ir-ecotricity"
+      version: "1.0.0-SNAPSHOT.zip"
+      worker-size: "1"
+      num-of-workers: "1"
+      repo_endpoint: 'https://github.com/igor-repka/packages/raw/master/'
+      filename: "bid-processing-1.0.0-SNAPSHOT.zip"
 

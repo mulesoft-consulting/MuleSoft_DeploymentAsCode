@@ -38,6 +38,7 @@ console.log('--- Anypoint API: all changes applied successfully');
 function deploy(application) {
 	console.log("### Running deployment of application: " + application.name);
 	var cloudAppDetails = get_application_details(objConfig.CloudHub.Env, application.name, exec);
+	downloadPackage(application.filename, application.repo_endpoint, exec);
 	if(cloudAppDetails == null) { //trigger new application deployment
 		//deploy_new_application('DEV', 'maven-project-ir-ecotricity', 'maven-project-ir-1.0.0-SNAPSHOT.zip', exec); 
 		//TODO remove debug log and enable function invocation above
@@ -46,6 +47,21 @@ function deploy(application) {
 		console.log("Updating: " + application.name);
 	}
 	console.log("### Application deployed successfully: " + application.name);
+}
+
+/*
+ * Downloads the package of application from provided repository
+ */
+function downloadPackage(filename, repoEndpoint, execSync) {
+	console.log("Downloading the package for: " + filename);
+	var command = util.format('curl --create-dirs -o packages/%s ' +
+		'%s/%s', filename, repoEndpoint, filename);
+
+	try {
+		execSync(command);
+	} catch (e) {
+		handle_error(e, "Package downloading failed.");
+	}
 }
 
 /*

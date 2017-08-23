@@ -45,7 +45,7 @@ function deploy(application) {
 		//deploy_new_application(objConfig.CloudHub.Env, application.name, application.filename, exec); 		
 	} else if(is_application_update_required(application, cloudAppDetails)) { //redeploy or modify application
 		console.log("Updating: " + application.name);
-		//redeploy_or_modify_application(objConfig.CloudHub.Env, application.name, application.filename, exec);
+		redeploy_or_modify_application(objConfig.CloudHub.Env, application.name, application.filename, exec);
 	} else {
 		console.log("Application does NOT require any updates " +
 			"- the version on the CloudHub is the same as info available in deployment descriptor file: " +

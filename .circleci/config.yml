@@ -7,13 +7,13 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - yaml-cache-{{ .Branch }}-{{ checksum "package.json" }}
+            - npm-cache-{{ .Branch }}-{{ checksum "node_modules/js-yaml/package.json" }}
       - run: sudo npm install -g anypoint-cli
       - run: sudo npm install js-yaml
       - save_cache:
-          key: yaml-cache-{{ .Branch }}-{{ checksum "package.json" }}
+          key: npm-cache-{{ .Branch }}-{{ checksum "node_modules/js-yaml/package.json" }}
           paths:
-            - node_modules/js-yaml
+            - node_modules
       - deploy:
           name: Deployment
           command: | 

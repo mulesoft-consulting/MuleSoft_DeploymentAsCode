@@ -8,9 +8,18 @@ jobs:
       - restore_cache:
           keys:
             - v1-npm-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
-      - run: sudo npm install anypoint-cli
-      - run: sudo npm install js-yaml
-      - run: sudo ln -s /home/circleci/project/node_modules/anypoint-cli/src/app.js /usr/local/bin/anypoint-cli
+      - run: 
+          name: Install anypoint-cli
+          command: |
+            sudo npm install anypoint-cli;
+      - run: 
+          name: Install js-yaml
+          command: |
+            sudo npm install js-yaml;
+      - run: 
+        name: Create symbolic link for anypoint-cli
+        command: | 
+          sudo ln -s /home/circleci/project/node_modules/anypoint-cli/src/app.js /usr/local/bin/anypoint-cli;
       - save_cache:
           key: v1-npm-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
           paths:

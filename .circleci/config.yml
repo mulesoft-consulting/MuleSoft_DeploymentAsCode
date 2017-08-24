@@ -8,19 +8,19 @@ jobs:
       - run: sudo chmod -R 755 /usr/local/lib/node_modules
       - restore_cache:
           keys:
-            - npm-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
+            - vnpm-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
       - restore_cache:
           keys:
-            - anypointcli-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
+            - vanypointcli-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
       - run: sudo npm install -g anypoint-cli
       - run: sudo npm install js-yaml
       - run: sudo chmod -R 755 /usr/local/lib/node_modules
       - save_cache:
-          key: npm-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
+          key: vnpm-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
           paths:
             - node_modules
       - save_cache:
-          key: anypointcli-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
+          key: vanypointcli-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
           paths:
             - /usr/local/lib/node_modules
             - /usr/local/bin

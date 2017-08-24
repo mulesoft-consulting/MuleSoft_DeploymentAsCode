@@ -23,6 +23,7 @@ jobs:
           paths:
             - /usr/local/lib/node_modules
             - /usr/local/bin
+      - run: sudo chmod -R 755 /usr/local/lib/node_modules
       - deploy:
           name: Deployment
           command: | 

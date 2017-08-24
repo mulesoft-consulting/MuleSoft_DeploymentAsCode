@@ -50,7 +50,7 @@ console.log('--- Anypoint API: all changes applied successfully');
  * Deploys or redeploys application on CloudHub
  */
 function deploy(application) {
-	console.log("### Running deployment of application: " + application.name);
+	console.log("\u001b[33m### Running deployment of application\u001b[39m: " + application.name);
 	var cloudAppDetails = get_application_details(application.name, exec);
 	downloadPackage(application.filename, application.repo_endpoint, exec);
 	if(cloudAppDetails == null) { //trigger new application deployment
@@ -64,7 +64,7 @@ function deploy(application) {
 			"- the version on the CloudHub is the same as info available in deployment descriptor file: " +
 			filename);
 	}
-	console.log("### Application deployment logic has finished successfully: " + application.name);
+	console.log("\u001b[33m### Application deployment logic has finished successfully\u001b[39m: " + application.name);
 }
 
 /*

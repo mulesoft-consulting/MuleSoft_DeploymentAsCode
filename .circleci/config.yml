@@ -5,6 +5,7 @@ jobs:
       - image: circleci/node:7
     steps:
       - checkout
+      - run: ls -la
       - restore_cache:
           keys:
             - npm-cache-{{ .Branch }}-{{ checksum "node_modules/js-yaml/package.json" }}

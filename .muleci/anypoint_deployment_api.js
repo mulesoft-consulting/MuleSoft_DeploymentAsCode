@@ -145,13 +145,19 @@ function get_application_details(appName, execSync) {
  * Function compares details in deployment descriptor with details obtained from CloudHub.
  */
 function is_application_update_required(app, cloudAppDetails) {	
-	//const filename = cloudAppDetails.fileName;
 	const workerSize = cloudAppDetails.workers.type.weight;
 	const numberOfWorkers = cloudAppDetails.workers.amount;
 	const runtime = cloudAppDetails.muleVersion.version;
 	const region = cloudAppDetails.region;
 	const properties = cloudAppDetails.properties;
+	const filename = cloudAppDetails.fileName;
 
+	//version of application deployed on Cloudhub is extracted from its file name
+	const regexVersion = new RegExp(app["version"] + "$", "g");
+	if(!regexVersion.test(filename.substring(0,filename.lastIndexOf(".")))) {
+		console.log("Difference in application version detected!");
+		return true;
+	}
 	if(app["worker-size"] != workerSize) {
 		console.log("Difference in Worker size detected!");
 		return true;

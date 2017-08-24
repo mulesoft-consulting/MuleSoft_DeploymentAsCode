@@ -10,7 +10,7 @@ jobs:
             - npm-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
       - run: sudo npm install anypoint-cli
       - run: sudo npm install js-yaml
-      - run: ln -s node_modules/anypoint-cli/src/app.js /usr/local/bin/anypoint-cli
+      - run: sudo ln -s node_modules/anypoint-cli/src/app.js /usr/local/bin/anypoint-cli
       - save_cache:
           key: npm-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
           paths:

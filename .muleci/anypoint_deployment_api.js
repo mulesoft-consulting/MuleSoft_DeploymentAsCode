@@ -174,8 +174,9 @@ function is_application_update_required(app, cloudAppDetails) {
 	try {  
     	//check if properties file exists in repo and if properties exit on CloudHub
     	if (!fs.existsSync(propertiesFile) && properties != null && typeof properties != 'undefined') {
-    		console.log("Difference in properties detected!");
-    		return true;
+    		console.log("Properties file has not been found! Properties will NOT be updated despite there are properties " +
+    			"detected on CloudHub.");
+    		return false;
 		}
 
     	var propertiesData = fs.readFileSync(propertiesFile, 'utf8');

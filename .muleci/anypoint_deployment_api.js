@@ -172,9 +172,15 @@ function is_application_update_required(app, cloudAppDetails) {
 	//compare properties
 	const propertiesFile = get_property_file_path(app);	
 	try {  
+    	//check if properties file exists in repo and if properties exit on CloudHub
+    	if (!fs.existsSync(propertiesFile) && properties != null && typeof properties != 'undefined') {
+    		console.log("Difference in properties detected!");
+    		return true;
+		}
+
     	var propertiesData = fs.readFileSync(propertiesFile, 'utf8');
     	if(propertiesData != null && propertiesData != "") {
-    		console.log("Properties from property file:\n%s\n", propertiesData);    
+    		console.log("Properties from property file %s:\n%s\n", propertiesFile, propertiesData);    
     		var propertiesArray = propertiesData.split("\n");
     		
     		//if the number of properties in property file is different then number of properties on CloudHub
@@ -203,6 +209,9 @@ function is_application_update_required(app, cloudAppDetails) {
 	return false;
 }
 
+/*
+ * Function deploys new application on CloudHub
+ */
 function deploy_new_application(app, execSync) {
 	var command = util.format(
 		'anypoint-cli ' + 
@@ -211,10 +220,14 @@ function deploy_new_application(app, execSync) {
 			'--organization=%s ' +
 			//'--output json ' +
 			'runtime-mgr cloudhub-application deploy %s %s%s ' + 
-			'--workers %s --workerSize %s --region %s --runtime %s ' +
-			'--propertiesFile %s',
+			'--workers %s --workerSize %s --region %s --runtime %s',
 			ENV, ORGID, app.name, PACKAGE_FOLDER, app.filename, app["num-of-workers"], app["worker-size"],
-			app.region, app.runtime, get_property_file_path(app));
+			app.region, app.runtime);
+
+	//if properties file exists attach it to the command to update CloudHub
+	if(fs.existsSync(get_property_file_path(app))) {
+		command = util.format(command + " --propertiesFile %s", get_property_file_path(app));
+	}
 
 	try {
 		var result = execSync(command);
@@ -234,10 +247,15 @@ function redeploy_or_modify_application(app, execSync) {
 			'--organization=%s ' +
 			//'--output json ' +
 			'runtime-mgr cloudhub-application modify %s %s%s ' +
-			'--workers %s --workerSize %s --region %s --runtime %s ' +
-			'--propertiesFile %s',
+			'--workers %s --workerSize %s --region %s --runtime %s',
 			ENV, ORGID, app.name, PACKAGE_FOLDER, app.filename, app["num-of-workers"], app["worker-size"],
-			app.region, app.runtime, get_property_file_path(app));
+			app.region, app.runtime);
+	
+	//if properties file exists attach it to the command to update CloudHub
+	if(fs.existsSync(get_property_file_path(app))) {
+		command = util.format(command + " --propertiesFile %s", get_property_file_path(app));
+	}
+
 	try {
 		var result = execSync(command);
 	} catch (e) {

@@ -5,10 +5,15 @@ jobs:
       - image: circleci/node:7
     steps:
       - checkout
-#TODO cache npm      
+      - restore_cache:
+          keys:
+            - yaml-cache-{{ .Branch }}-{{ checksum "package.json" }}
       - run: sudo npm install -g anypoint-cli
       - run: sudo npm install js-yaml
-      - run: ls -la /home/ubuntu/nvm/versions/node/
+      - save_cache:
+          key: yaml-cache-{{ .Branch }}-{{ checksum "package.json" }}
+          paths:
+            - node_modules/js-yaml
       - deploy:
           name: Deployment
           command: | 

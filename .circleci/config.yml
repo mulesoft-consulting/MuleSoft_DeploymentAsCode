@@ -5,6 +5,7 @@ jobs:
       - image: circleci/node:7
     steps:
       - checkout
+      - run: echo $PATH
       - restore_cache:
           keys:
             - npm-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}

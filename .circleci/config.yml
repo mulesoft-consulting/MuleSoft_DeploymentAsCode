@@ -5,7 +5,6 @@ jobs:
       - image: circleci/node:7
     steps:
       - checkout
-      - run: echo $PATH
       - restore_cache:
           keys:
             - npm-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
@@ -19,7 +18,5 @@ jobs:
       - deploy:
           name: Deployment
           command: | 
-            ls -la /usr/local/bin;
-            ls -la;
             chmod +x .muleci/deployment.sh;
             .muleci/deployment.sh deployment_descriptor.yml;

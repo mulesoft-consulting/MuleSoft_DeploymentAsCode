@@ -9,7 +9,7 @@ CloudHub:
       num-of-workers: "1"
       runtime: "3.8.5"
       region: "eu-west-1"
-      properties: ""
+      properties: "maven-project-ir-ecotricity-dev.properties"
       repo_endpoint: 'https://github.com/igor-repka/packages/raw/master/'
       filename: "maven-project-ir-1.0.0-SNAPSHOT.zip"
     -
@@ -19,7 +19,7 @@ CloudHub:
       num-of-workers: "1"
       runtime: "3.8.5"
       region: "eu-west-1"
-      properties: ""
+      properties: "bid-processing-ir-ecotricity-dev.properties"
       repo_endpoint: 'https://github.com/igor-repka/packages/raw/master/'
       filename: "bid-processing-1.0.0-SNAPSHOT.zip"
 

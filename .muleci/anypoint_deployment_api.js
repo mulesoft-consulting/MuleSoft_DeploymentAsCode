@@ -15,6 +15,7 @@ const fs = require('fs');
 const util = require('util');
 
 const PACKAGE_FOLDER = "packages/";
+const PROPERTIES_FOLDER = "app_properties/";
 
 //Child process for calling anypoint-cli
 var exec = require('child_process').execSync;
@@ -61,7 +62,7 @@ function deploy(application) {
 	} else {
 		console.log("Application does NOT require any updates " +
 			"- the version on the CloudHub is the same as info available in deployment descriptor file: " +
-			application.name);
+			filename);
 	}
 	console.log("### Application deployment logic has finished successfully: " + application.name);
 }
@@ -123,7 +124,7 @@ function get_application_details(appName, execSync) {
 		result = result.replace(/\u001b\[32m/g, "");	//remove ansi escape sequence \u001b[32m
 		result = result.replace(/\u001b\[33m/g, "");	//remove ansi escape sequence \u001b[39m
 		result = result.replace(/\u001b\[39m/g, "");	//remove ansi escape sequence \u001b[33m
-		console.log("JSON prepared: " + result);
+		//console.log("JSON prepared: " + result);
 
 		return JSON.parse(result);
 	} catch (e) {
@@ -152,23 +153,51 @@ function is_application_update_required(app, cloudAppDetails) {
 	const properties = cloudAppDetails.properties;
 
 	if(app["worker-size"] != workerSize) {
+		console.log("Difference in Worker size detected!");
 		return true;
 	}
 	if(app["num-of-workers"] != numberOfWorkers) {
+		console.log("Difference in number of Workers detected!");
 		return true;	
 	} 
 	if(app["runtime"] != runtime) {
+		console.log("Difference in runtime detected!");
 		return true;
 	}
 	if(app["region"] != region) {
+		console.log("Difference in region detected!");
 		return true;
 	}
 
 	//compare properties
-	var propertyKeys = Object.keys(properties);
-	for(const key of propertyKeys) {
-		console.log("Key: %s, Value: %s", key, properties[key]);
-		//be careful this interation would not catch the new property added to config file!!!!!!!!!
+	const propertiesFile = get_property_file_path(app);	
+	try {  
+    	var propertiesData = fs.readFileSync(propertiesFile, 'utf8');
+    	if(propertiesData != null && propertiesData != "") {
+    		console.log("Properties from property file:\n%s\n", propertiesData);    
+    		var propertiesArray = propertiesData.split("\n");
+    		
+    		//if the number of properties in property file is different then number of properties on CloudHub
+    		//properties must be updated
+    		if(propertiesArray.length != Object.keys(properties).length) {
+    			console.log("Difference in properties detected!");
+    			return true;
+    		}
+
+    		//compare data in property file in repo with properties currently set up on CloudHub
+    		for(const property of propertiesArray) {
+    			var keyValue = property.split(":");    			
+    			if(properties[keyValue[0]] != keyValue[1]) {
+    				console.log("Difference in properties detected!");
+    				return true;
+    			}
+    		}
+
+    	} else {
+    		console.log("Property file: %s is empty.", propertiesFile);
+    	}    	
+	} catch(e) {
+    	handle_error(e, "Enable to ready property file for application: " + app.name);
 	}
 
 	return false;
@@ -182,9 +211,10 @@ function deploy_new_application(app, execSync) {
 			'--organization=%s ' +
 			//'--output json ' +
 			'runtime-mgr cloudhub-application deploy %s %s%s ' + 
-			'--workers %s --workerSize %s --region %s --runtime %s',
+			'--workers %s --workerSize %s --region %s --runtime %s ' +
+			'--propertiesFile %s',
 			ENV, ORGID, app.name, PACKAGE_FOLDER, app.filename, app["num-of-workers"], app["worker-size"],
-			app.region, app.runtime);
+			app.region, app.runtime, get_property_file_path(app));
 
 	try {
 		var result = execSync(command);
@@ -204,14 +234,22 @@ function redeploy_or_modify_application(app, execSync) {
 			'--organization=%s ' +
 			//'--output json ' +
 			'runtime-mgr cloudhub-application modify %s %s%s ' +
-			'--workers %s --workerSize %s --region %s --runtime %s',
+			'--workers %s --workerSize %s --region %s --runtime %s ' +
+			'--propertiesFile %s',
 			ENV, ORGID, app.name, PACKAGE_FOLDER, app.filename, app["num-of-workers"], app["worker-size"],
-			app.region, app.runtime);
+			app.region, app.runtime, get_property_file_path(app));
 	try {
 		var result = execSync(command);
 	} catch (e) {
 		handle_error(e, "Cannot update the application: " + app.name);
 	}
+}
+
+/*
+ * Returns relative path to application properties for application passed as an input
+ */
+function get_property_file_path(app) {
+	return PROPERTIES_FOLDER+app.name+"/"+app.properties;
 }
 
 /*

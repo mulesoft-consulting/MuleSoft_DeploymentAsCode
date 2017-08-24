@@ -14,6 +14,7 @@ jobs:
             - anypointcli-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
       - run: sudo npm install -g anypoint-cli
       - run: sudo npm install js-yaml
+      - run: sudo chmod -R 755 /usr/local/lib/node_modules
       - save_cache:
           key: npm-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
           paths:
@@ -23,7 +24,6 @@ jobs:
           paths:
             - /usr/local/lib/node_modules
             - /usr/local/bin
-      - run: sudo chmod -R 755 /usr/local/lib/node_modules
       - deploy:
           name: Deployment
           command: | 

@@ -1,2 +1,2 @@
 This file is used to calculate checksum. Calculated checksum is used as a key for saving and restoring CircleCI cahce.
-File can be changed to trigger cache deletion. 
+File can be changed to trigger cache deletion.

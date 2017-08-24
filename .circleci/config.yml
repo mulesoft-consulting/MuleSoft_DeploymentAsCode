@@ -5,6 +5,7 @@ jobs:
       - image: circleci/node:7
     steps:
       - checkout
+      - run: sudo chmod -R 755 /usr/local/lib/node_modules
       - restore_cache:
           keys:
             - npm-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
@@ -27,10 +28,3 @@ jobs:
           command: | 
             chmod +x .muleci/deployment.sh;
             .muleci/deployment.sh deployment_descriptor.yml;
-
-# deployment:
-#   production: # just a label; label names are completely up to you
-#     branch: master
-#     commands:
-        #- ./deploy-to-production.sh
-#        - echo "deployment prod"

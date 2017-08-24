@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
 #TODO cache npm      
-      - run: sudo npm install anypoint-cli
+      - run: sudo npm install -g anypoint-cli
       - run: sudo npm install js-yaml
       - deploy:
           name: Deployment

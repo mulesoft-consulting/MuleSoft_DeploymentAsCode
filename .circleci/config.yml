@@ -17,9 +17,9 @@ jobs:
           command: |
             sudo npm install js-yaml;
       - run: 
-        name: Create symbolic link for anypoint-cli
-        command: | 
-          sudo ln -s /home/circleci/project/node_modules/anypoint-cli/src/app.js /usr/local/bin/anypoint-cli;
+          name: Create symbolic link for anypoint-cli
+          command: | 
+            sudo ln -s /home/circleci/project/node_modules/anypoint-cli/src/app.js /usr/local/bin/anypoint-cli;
       - save_cache:
           key: v1-npm-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
           paths:

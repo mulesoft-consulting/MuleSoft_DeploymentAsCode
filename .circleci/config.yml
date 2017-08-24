@@ -9,6 +9,7 @@ jobs:
       - run: sudo npm install -g anypoint-cli
       - run: sudo npm install js-yaml
       - deploy:
+          name: Deployment
           command: | 
             chmod +x .muleci/deployment.sh;
             .muleci/deployment.sh deployment_descriptor.yml;

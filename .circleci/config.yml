@@ -8,6 +8,7 @@ jobs:
 #TODO cache npm      
       - run: sudo npm install -g anypoint-cli
       - run: sudo npm install js-yaml
+      - run: ls -la /home/ubuntu/nvm/versions/node/
       - deploy:
           name: Deployment
           command: | 

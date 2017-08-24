@@ -4,14 +4,14 @@ CloudHub:
   Applications:
     -
       name: "maven-project-ir-ecotricity"
-      version: "1.0.1-SNAPSHOT"
+      version: "1.0.0-SNAPSHOT"
       worker-size: "0.1"
       num-of-workers: "1"
       runtime: "3.8.5"
       region: "eu-west-1"
       properties: "maven-project-ir-ecotricity-dev.properties"
       repo_endpoint: 'https://github.com/igor-repka/packages/raw/master/'
-      filename: "maven-project-ir-1.0.1-SNAPSHOT.zip"
+      filename: "maven-project-ir-1.0.0-SNAPSHOT.zip"
     -
       name: "bid-processing-ir-ecotricity"
       version: "1.0.0-SNAPSHOT"

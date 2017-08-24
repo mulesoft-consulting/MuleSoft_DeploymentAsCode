@@ -15,7 +15,7 @@ CloudHub:
     -
       name: "bid-processing-ir-ecotricity"
       version: "1.0.0-SNAPSHOT.zip"
-      worker-size: "1"
+      worker-size: "0.1"
       num-of-workers: "1"
       runtime: "3.8.5"
       region: "eu-west-1"

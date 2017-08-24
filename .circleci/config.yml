@@ -19,5 +19,6 @@ jobs:
       - deploy:
           name: Deployment
           command: | 
+            ls -la /usr/local/bin;
             chmod +x .muleci/deployment.sh;
             .muleci/deployment.sh deployment_descriptor.yml;

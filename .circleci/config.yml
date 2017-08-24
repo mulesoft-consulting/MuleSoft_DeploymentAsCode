@@ -20,7 +20,8 @@ jobs:
       - save_cache:
           key: anypointcli-cache-{{ .Branch }}-{{ checksum ".circleci/cache.lock" }}
           paths:
-            - /usr/local/lib/node_modules/anypoint-cli
+            - /usr/local/lib/node_modules
+            - /usr/local/bin
       - deploy:
           name: Deployment
           command: | 

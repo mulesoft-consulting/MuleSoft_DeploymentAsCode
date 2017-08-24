@@ -52,7 +52,7 @@ console.log('--- Anypoint API: all changes applied successfully');
 function deploy(application) {
 	console.log("\u001b[33m### Running deployment of application\u001b[39m: " + application.name);
 	var cloudAppDetails = get_application_details(application.name, exec);
-	downloadPackage(application.filename, application.repo_endpoint, exec);
+	
 	if(cloudAppDetails == null) { //trigger new application deployment
 		console.log("Deploying: " + application.name);
 		deploy_new_application(application, exec); 		
@@ -220,6 +220,8 @@ function is_application_update_required(app, cloudAppDetails) {
  * Function deploys new application on CloudHub
  */
 function deploy_new_application(app, execSync) {
+	downloadPackage(app.filename, app.repo_endpoint, exec);
+
 	var command = util.format(
 		'anypoint-cli ' + 
 			'--username=$anypoint_username --password=$anypoint_password ' + 
@@ -247,6 +249,8 @@ function deploy_new_application(app, execSync) {
  * Modifies / redeploys the application on CloudHub
  */
 function redeploy_or_modify_application(app, execSync) {
+	downloadPackage(app.filename, app.repo_endpoint, exec);
+
 	var command = util.format(
 		'anypoint-cli ' + 
 			'--username=$anypoint_username --password=$anypoint_password ' + 

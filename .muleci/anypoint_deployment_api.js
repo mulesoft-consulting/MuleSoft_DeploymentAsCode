@@ -31,8 +31,8 @@ if(filename) {
 
 var objConfig = parse_deployment_config_file(filename);
 const ENV = objConfig.CloudHub.Env;
-const ORGID = objConfig.CloudHub.Orgid;
-console.log("Deployment is running for environment: %s, Organisation: %s", ENV, ORGID);
+const ORGID = objConfig.CloudHub.BusinessGroup;
+console.log("Deployment is running for environment: %s, Business Group: %s", ENV, ORGID);
 
 //run deployment logic for every application in config file
 for (const app of objConfig.CloudHub.Applications) {
@@ -152,9 +152,9 @@ function is_application_update_required(app, cloudAppDetails) {
 	const properties = cloudAppDetails.properties;
 	const filename = cloudAppDetails.fileName;
 
-	//version of application deployed on Cloudhub is extracted from its file name
-	const regexVersion = new RegExp(app["version"] + "$", "g");
-	if(!regexVersion.test(filename.substring(0,filename.lastIndexOf(".")))) {
+	//instead of comparing version the file name is compared with package name configured in deployment descriptor
+	//this can be done because the version is part of the package / file name.
+	if(app["packageName"] != filename) {
 		console.log("Difference in application version detected!");
 		return true;
 	}
@@ -220,7 +220,7 @@ function is_application_update_required(app, cloudAppDetails) {
  * Function deploys new application on CloudHub
  */
 function deploy_new_application(app, execSync) {
-	downloadPackage(app.filename, app.repo_endpoint, exec);
+	downloadPackage(app.packageName, app.repo_endpoint, exec);
 
 	var command = util.format(
 		'anypoint-cli ' + 
@@ -230,7 +230,7 @@ function deploy_new_application(app, execSync) {
 			//'--output json ' +
 			'runtime-mgr cloudhub-application deploy %s %s%s ' + 
 			'--workers %s --workerSize %s --region %s --runtime %s',
-			ENV, ORGID, app.name, PACKAGE_FOLDER, app.filename, app["num-of-workers"], app["worker-size"],
+			ENV, ORGID, app.name, PACKAGE_FOLDER, app.packageName, app["num-of-workers"], app["worker-size"],
 			app.region, app.runtime);
 
 	//if properties file exists attach it to the command to update CloudHub
@@ -249,7 +249,7 @@ function deploy_new_application(app, execSync) {
  * Modifies / redeploys the application on CloudHub
  */
 function redeploy_or_modify_application(app, execSync) {
-	downloadPackage(app.filename, app.repo_endpoint, exec);
+	downloadPackage(app.packageName, app.repo_endpoint, exec);
 
 	var command = util.format(
 		'anypoint-cli ' + 
@@ -259,7 +259,7 @@ function redeploy_or_modify_application(app, execSync) {
 			//'--output json ' +
 			'runtime-mgr cloudhub-application modify %s %s%s ' +
 			'--workers %s --workerSize %s --region %s --runtime %s',
-			ENV, ORGID, app.name, PACKAGE_FOLDER, app.filename, app["num-of-workers"], app["worker-size"],
+			ENV, ORGID, app.name, PACKAGE_FOLDER, app.packageName, app["num-of-workers"], app["worker-size"],
 			app.region, app.runtime);
 	
 	//if properties file exists attach it to the command to update CloudHub

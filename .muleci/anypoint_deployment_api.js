@@ -152,9 +152,9 @@ function is_application_update_required(app, cloudAppDetails) {
 	const properties = cloudAppDetails.properties;
 	const filename = cloudAppDetails.fileName;
 
-	//version of application deployed on Cloudhub is extracted from its file name
-	const regexVersion = new RegExp(app["version"] + "$", "g");
-	if(!regexVersion.test(filename.substring(0,filename.lastIndexOf(".")))) {
+	//instead of comparing version the file name is compared with package name configured in deployment descriptor
+	//this can be done because the version is part of the package / file name.
+	if(app["packageName"] != filename) {
 		console.log("Difference in application version detected!");
 		return true;
 	}

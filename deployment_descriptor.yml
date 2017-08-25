@@ -1,6 +1,6 @@
 CloudHub:  
   Env: "DEV"
-  Orgid: "MuleSoft"
+  BusinessGroup: "MuleSoft"
   Applications:
     -
       name: "maven-project-ir-ecotricity"

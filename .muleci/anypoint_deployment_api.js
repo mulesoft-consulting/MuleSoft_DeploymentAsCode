@@ -31,8 +31,8 @@ if(filename) {
 
 var objConfig = parse_deployment_config_file(filename);
 const ENV = objConfig.CloudHub.Env;
-const ORGID = objConfig.CloudHub.Orgid;
-console.log("Deployment is running for environment: %s, Organisation: %s", ENV, ORGID);
+const ORGID = objConfig.CloudHub.BusinessGroup;
+console.log("Deployment is running for environment: %s, Business Group: %s", ENV, ORGID);
 
 //run deployment logic for every application in config file
 for (const app of objConfig.CloudHub.Applications) {

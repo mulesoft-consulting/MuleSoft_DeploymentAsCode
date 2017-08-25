@@ -3,7 +3,7 @@ CloudHub:
   Orgid: "MuleSoft"
   Applications:
     -
-      name: "maven-project-ir-ecotricity"
+      name: "maven-project-ir-ecotricity-sandbox"
       version: "1.0.1-SNAPSHOT"
       worker-size: "0.1"
       num-of-workers: "1"
@@ -13,7 +13,7 @@ CloudHub:
       repo_endpoint: 'https://github.com/igor-repka/packages/raw/master/'
       filename: "maven-project-ir-1.0.1-SNAPSHOT.zip"
     -
-      name: "bid-processing-ir-ecotricity"
+      name: "bid-processing-ir-ecotricity-sandbox"
       version: "1.0.0-SNAPSHOT"
       worker-size: "1"
       num-of-workers: "1"

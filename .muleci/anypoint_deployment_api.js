@@ -220,7 +220,7 @@ function is_application_update_required(app, cloudAppDetails) {
  * Function deploys new application on CloudHub
  */
 function deploy_new_application(app, execSync) {
-	downloadPackage(app.filename, app.repo_endpoint, exec);
+	downloadPackage(app.packageName, app.repo_endpoint, exec);
 
 	var command = util.format(
 		'anypoint-cli ' + 
@@ -230,7 +230,7 @@ function deploy_new_application(app, execSync) {
 			//'--output json ' +
 			'runtime-mgr cloudhub-application deploy %s %s%s ' + 
 			'--workers %s --workerSize %s --region %s --runtime %s',
-			ENV, ORGID, app.name, PACKAGE_FOLDER, app.filename, app["num-of-workers"], app["worker-size"],
+			ENV, ORGID, app.name, PACKAGE_FOLDER, app.packageName, app["num-of-workers"], app["worker-size"],
 			app.region, app.runtime);
 
 	//if properties file exists attach it to the command to update CloudHub
@@ -249,7 +249,7 @@ function deploy_new_application(app, execSync) {
  * Modifies / redeploys the application on CloudHub
  */
 function redeploy_or_modify_application(app, execSync) {
-	downloadPackage(app.filename, app.repo_endpoint, exec);
+	downloadPackage(app.packageName, app.repo_endpoint, exec);
 
 	var command = util.format(
 		'anypoint-cli ' + 
@@ -259,7 +259,7 @@ function redeploy_or_modify_application(app, execSync) {
 			//'--output json ' +
 			'runtime-mgr cloudhub-application modify %s %s%s ' +
 			'--workers %s --workerSize %s --region %s --runtime %s',
-			ENV, ORGID, app.name, PACKAGE_FOLDER, app.filename, app["num-of-workers"], app["worker-size"],
+			ENV, ORGID, app.name, PACKAGE_FOLDER, app.packageName, app["num-of-workers"], app["worker-size"],
 			app.region, app.runtime);
 	
 	//if properties file exists attach it to the command to update CloudHub

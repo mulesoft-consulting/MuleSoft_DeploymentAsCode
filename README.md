@@ -1,8 +1,8 @@
 # Mule CI
 
 - application name to be unique across the organisation
-- app version - how it is compared with version on cloudhub
-- how to use app properties (possible differences with behaviour):
+- app version - how it is compared with the version on cloudhub
+- how to use app properties:
 
 	- properties are there but file is not available
 	- file is available properties are empty

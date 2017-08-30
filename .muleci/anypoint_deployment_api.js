@@ -132,7 +132,7 @@ function get_application_details(appName, execSync) {
 		var tmpStdOut = e.stdout+"";
 
 		if(appNotFoundPattern == tmpStdOut) { //Application Not Found Error triggers a fresh deployment of new application
-			console.log("The deployment is running for application that has never been deployed before.");
+			console.log("The deployment is running for the application that has not been deployed.");
 			return null;
 		} else { //unknown error
 			handle_error(e);

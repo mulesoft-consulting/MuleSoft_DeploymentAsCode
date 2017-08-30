@@ -43,6 +43,9 @@ Requirements:
 
 prop folder == app name
 
+update:
+he deployment is running for application that has never been deployed befor
+
 structure
 deployment_descritor / what is configurable and how it works - compare to info in clouds
 how to run - out of the CricleCI

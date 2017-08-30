@@ -4,7 +4,7 @@ MuleSoft Anypoint Platform application deployment and runtime configuration.
 
 ## Documentation
 
-Deployment uses `Command Line Interface for Anypoint Platform` (Anypoint-CLI) to:
+Deployment uses `Command Line Interface for Anypoint Platform` [Anypoint-CLI](https://docs.mulesoft.com/runtime-manager/anypoint-platform-cli) to:
 * Get information about deployed application
 * Update application runtime, e.g. number of Workers
 * Update or deploy application.
@@ -20,31 +20,32 @@ Configuration file `deployment_descriptor.yml` drives the deployment execution a
     * Region
     * Properties
 
-In case there are differences identified the application update is triggered.
+In case there are differences identified in attributes mentioned above, the application update is triggered
 
 ## Usage
 
+To configure and trigger the deployment `deployment_descriptor.yml` must be updated and committed to central repository. CI Server (e.g. Jenkins, CircleCI) could be either listening to changes and start deployment process after updated configuration file is delivered or scheduled for night builds (deployment configuration and scripts do not depend on CI configuration, despite the project contains CircleCI config file - CircleCI is preconfigured as part of the solution).
+
+----
 what we need to update in config to start using it?
+properties file = prop folder == app name
+if property file is empty no properties will be updated 
 pushing new changes to this repository triggers a deployment
+----
 
 Call the deployment scripts manually (from local machine or outside the CI server)
 ```sh
-$ .muleci/deployment.sh deployment_descriptor.yml;
+$ .muleci/deployment.sh deployment_descriptor.yml
 ```
 
-Requirements: 
+You need to install following libraries to run the deployment script: 
 * Node.js
 * Anypoint-CLI
 
-
+Suggestion is to maintain a separate branch of this deployment project per each environment, so the environment specific settings could be maintained. The merge between the branches should not be required as the only expected changes are related to deployment environment itself.
 
 
 # Notes - TODO - to be cleaned up
-
-prop folder == app name
-
-update:
-he deployment is running for application that has never been deployed befor
 
 structure
 deployment_descritor / what is configurable and how it works - compare to info in clouds
@@ -53,17 +54,6 @@ how to run - out of the CricleCI
 
 
 - application name to be unique across the organisation
-- app version - how it is compared with the version on cloudhub
-- how script identifies if deployment is required
-- how to use app properties:
 
-	- properties are there but file is not available
-	- file is available properties are empty
-	- file is available and properties are there
-		- properties are the same
-		- missing property in config file
-		- missing property on cloudhub
-		- the same keys but different value
-		- totaly different properties
 
-- separate branch of deployment_descritor per environment
+

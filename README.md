@@ -18,6 +18,7 @@ Configuration file `deployment_descriptor.yml` drives the deployment execution a
     * Number of Workers
     * Runtime
     * Region
+    * Properties
 
 In case there are differences identified the application update is triggered.
 

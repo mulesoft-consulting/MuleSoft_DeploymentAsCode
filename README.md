@@ -28,9 +28,15 @@ To configure and trigger the deployment `deployment_descriptor.yml` must be upda
 
 
 what we need to update in config to start using it?
+* Env
+* Business Group
+
 properties file = prop folder == app name
+
 if property file is empty no properties will be updated 
+
 pushing new changes to this repository triggers a deployment
+
 environment variables to be configured on CI server side
 
 

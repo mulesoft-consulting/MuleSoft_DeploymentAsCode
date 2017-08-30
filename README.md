@@ -4,7 +4,7 @@ MuleSoft Anypoint Platform application deployment and runtime configuration.
 
 ## Documentation
 
-Deployment uses `Command Line Interface for Anypoint Platform` (Anypoint-CLI) to:
+Deployment uses `Command Line Interface for Anypoint Platform` [Anypoint-CLI](https://docs.mulesoft.com/runtime-manager/anypoint-platform-cli) to:
 * Get information about deployed application
 * Update application runtime, e.g. number of Workers
 * Update or deploy application.
@@ -20,7 +20,9 @@ Configuration file `deployment_descriptor.yml` drives the deployment execution a
     * Region
     * Properties
 
-In case there are differences identified the application update is triggered.
+<aside class="notice">
+In case there are differences identified the application update is triggered
+</aside>
 
 ## Usage
 

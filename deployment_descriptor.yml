@@ -4,7 +4,8 @@ CloudHub:
   Applications:
     -
       name: "maven-project-ir-ecotricity"
-      packageName: "maven-project-ir-1.0.0-SNAPSHOT.zip"
+#      packageName: "maven-project-ir-1.0.0-SNAPSHOT.zip"
+      packageName: "maven-project-ir-1.0.2.jar"
       worker-size: "0.1"
       num-of-workers: "1"
       runtime: "3.8.5"

@@ -6,7 +6,7 @@ CloudHub:
       name: "maven-project-ir-ecotricity"
       packageName: "maven-project-ir-1.0.0-SNAPSHOT.zip"
       worker-size: "0.1"
-      num-of-workers: "1"
+      num-of-workers: "2"
       runtime: "3.8.5"
       region: "eu-west-1"
       properties: "maven-project-ir-ecotricity-branch1.properties"

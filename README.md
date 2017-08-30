@@ -24,6 +24,7 @@ In case there are differences identified the application update is triggered.
 
 ## Usage
 
+what we need to update in config to start using it?
 pushing new changes to this repository triggers a deployment
 
 Call the deployment scripts manually (from local machine or outside the CI server)
@@ -39,6 +40,8 @@ Requirements:
 
 
 # Notes - TODO - to be cleaned up
+
+prop folder == app name
 
 structure
 deployment_descritor / what is configurable and how it works - compare to info in clouds

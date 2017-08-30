@@ -31,7 +31,7 @@ pushing new changes to this repository triggers a deployment
 
 Call the deployment scripts manually (from local machine or outside the CI server)
 ```sh
-$ .muleci/deployment.sh deployment_descriptor.yml;
+$ .muleci/deployment.sh deployment_descriptor.yml
 ```
 
 You need to install following libraries to run the deployment script: 

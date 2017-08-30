@@ -20,9 +20,7 @@ Configuration file `deployment_descriptor.yml` drives the deployment execution a
     * Region
     * Properties
 
-<aside class="notice">
 In case there are differences identified the application update is triggered
-</aside>
 
 ## Usage
 

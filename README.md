@@ -66,7 +66,7 @@ You need to install following libraries to run the deployment script:
 * Anypoint-CLI
 
 # Suggestion
-Suggestion is to maintain a separate branch of this deployment project per each environment, so the environment specific settings could be maintained. The merge between the branches should not be required as the only expected changes are related to deployment environment itself.
+Suggestion is to create a separate branch of this deployment project per each environment, so the environment specific settings could be maintained. The merge between the branches should not be required as the only expected changes are related to deployment environment itself.
 
 
 # TODOs

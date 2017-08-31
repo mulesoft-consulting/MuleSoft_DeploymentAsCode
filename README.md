@@ -26,16 +26,19 @@ In case there are differences identified in attributes mentioned above, the appl
 
 To configure and trigger the deployment `deployment_descriptor.yml` must be updated and committed to central repository. CI Server (e.g. Jenkins, CircleCI) could be either listening to changes and start deployment process after updated configuration file is delivered or scheduled for night builds (deployment configuration and scripts do not depend on CI configuration, despite the project contains CircleCI config file - CircleCI is preconfigured as part of the solution).
 
-> Before the first run:
+#### Before the first run:
 
 Configuration file `deployment_descriptor.yml` must be updated:
 * Env - environment applications are deployed on (if configuration of another environment is required, the suggestion is to create a new branch from this repository - please see Suggestion details at the end of the section).
 * Business Group - insert your Business Group, where your applications are deployed (or will be deployed).
 * Applications - configure the applications and runtime details.
 
-environment variables to be configured on CI server side
+Following environment variables must be configured on CI server:
+* Deployer's credentials used to login to Anypoint Platform
+   * anypoint_username
+   * anypoint_password
 
-> How to update properties of your application:
+#### How to update properties of your application:
 
 properties file = prop folder == app name
 

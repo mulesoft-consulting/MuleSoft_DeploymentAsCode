@@ -20,7 +20,7 @@ Configuration file `deployment_descriptor.yml` drives the deployment execution a
     * Region
     * Properties
 
-In case there are differences identified in attributes mentioned above, the application update is triggered
+In case there are differences identified in attributes mentioned above, the application update is triggered.
 
 ## Usage
 

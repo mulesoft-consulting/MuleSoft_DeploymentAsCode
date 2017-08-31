@@ -29,7 +29,7 @@ To configure and trigger the deployment, `deployment_descriptor.yml` must be upd
 #### Before the first run:
 
 Configuration file `deployment_descriptor.yml` must be updated:
-* **Env** - environment applications are deployed on (if configuration of another environment is required, the suggestion is to create a new branch from this repository - please see Suggestion details at the end of the section).
+* **Env** - environment applications are deployed on (if configuration of another environment is required, the suggestion is to create a new branch from this repository - please, find Suggestion section at the end of the document).
 * **Business Group** - insert your Business Group, where your applications are deployed (or will be deployed).
 * **Applications** - configure the applications and runtime details.
 

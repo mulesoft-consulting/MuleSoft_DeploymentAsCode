@@ -51,6 +51,7 @@ Where:
 app.name == bid-processing-ir-ecotricity
 branch == branch1 (this is NOT the branch of this repository, this is the branch of the repository where application source code is managed).
 ```
+Important note: `app.name` is the `name` field in `deployment_descriptor.yml`
 
 If property file is empty no properties will be updated on the server.
 
@@ -64,6 +65,7 @@ You need to install following libraries to run the deployment script:
 * Node.js
 * Anypoint-CLI
 
+# Suggestion
 Suggestion is to maintain a separate branch of this deployment project per each environment, so the environment specific settings could be maintained. The merge between the branches should not be required as the only expected changes are related to deployment environment itself.
 
 

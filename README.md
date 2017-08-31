@@ -38,11 +38,19 @@ Following environment variables must be configured on CI server:
    * anypoint_username
    * anypoint_password
 
-#### How to update properties of your application:
+#### How to update `Properties` of your application:
+Application Properties are maintained as part of this repository and are stored in the folder that follows naming conventions as described below.
 
-properties file = prop folder == app name
+```
+app_properties/[app.name]/[app.name]-[branch].properties
+Example:
+app_properties/bid-processing-ir-ecotricity/bid-processing-ir-ecotricity-branch1.properties
+Where:
+app.name == bid-processing-ir-ecotricity
+branch == branch1 (this is NOT the branch of this repository, this is the branch of the repository where application source code is managed).
+```
 
-if property file is empty no properties will be updated 
+If property file is empty no properties will be updated on the server.
 
 
 Call the deployment scripts manually (from local machine or outside the CI server)

@@ -43,8 +43,10 @@ Application Properties are maintained as part of this repository and are stored 
 
 ```
 app_properties/[app.name]/[app.name]-[branch].properties
+
 Example:
 app_properties/bid-processing-ir-ecotricity/bid-processing-ir-ecotricity-branch1.properties
+
 Where:
 app.name == bid-processing-ir-ecotricity
 branch == branch1 (this is NOT the branch of this repository, this is the branch of the repository where application source code is managed).
@@ -53,7 +55,7 @@ branch == branch1 (this is NOT the branch of this repository, this is the branch
 If property file is empty no properties will be updated on the server.
 
 
-Call the deployment scripts manually (from local machine or outside the CI server)
+#### Call the deployment scripts manually (from local machine or outside the CI server)
 ```sh
 $ .muleci/deployment.sh deployment_descriptor.yml
 ```

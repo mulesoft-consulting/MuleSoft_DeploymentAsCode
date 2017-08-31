@@ -29,9 +29,9 @@ To configure and trigger the deployment `deployment_descriptor.yml` must be upda
 #### Before the first run:
 
 Configuration file `deployment_descriptor.yml` must be updated:
-* Env - environment applications are deployed on (if configuration of another environment is required, the suggestion is to create a new branch from this repository - please see Suggestion details at the end of the section).
-* Business Group - insert your Business Group, where your applications are deployed (or will be deployed).
-* Applications - configure the applications and runtime details.
+* **Env** - environment applications are deployed on (if configuration of another environment is required, the suggestion is to create a new branch from this repository - please see Suggestion details at the end of the section).
+* **Business Group** - insert your Business Group, where your applications are deployed (or will be deployed).
+* **Applications** - configure the applications and runtime details.
 
 Following environment variables must be configured on CI server:
 * Deployer's credentials used to login to Anypoint Platform
@@ -57,15 +57,4 @@ You need to install following libraries to run the deployment script:
 Suggestion is to maintain a separate branch of this deployment project per each environment, so the environment specific settings could be maintained. The merge between the branches should not be required as the only expected changes are related to deployment environment itself.
 
 
-# Notes - TODO - to be cleaned up
-
-structure
-deployment_descritor / what is configurable and how it works - compare to info in clouds
-how to run - out of the CricleCI
- (nodejs and npm required)
-
-
-- application name to be unique across the organisation
-
-
-
+# TODOs

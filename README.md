@@ -53,7 +53,7 @@ branch == branch1 (this is NOT the branch of this repository, this is the branch
 ```
 Important note: `app.name` is the `name` field in `deployment_descriptor.yml`
 
-If property file is empty no properties will be updated on the server.
+If the property file is empty no properties will be updated on the server.
 
 
 #### Call the deployment scripts manually (from local machine or outside the CI server)

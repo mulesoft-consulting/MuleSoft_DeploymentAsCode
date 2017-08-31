@@ -120,11 +120,11 @@ function get_application_details(appName, execSync) {
 		result = result.replace(/'/g, "\""); 			//replace all ' by "
 		result = result.replace(/:/g, "\":");			//replace all : by ":
 		result = result.replace(/{(?:(?!}))/g, "{\"");  //replace {(?:(?!})) by {"
-		result = result.replace(/,/g, ",\""); 			//replace all , by ," 
+		result = result.replace(/,(?:(?!{))/g, ",\"");  //replace all ,(?:(?!{)) by ,"  -- all , that does not continue with {
 		result = result.replace(/\u001b\[32m/g, "");	//remove ansi escape sequence \u001b[32m
 		result = result.replace(/\u001b\[33m/g, "");	//remove ansi escape sequence \u001b[39m
 		result = result.replace(/\u001b\[39m/g, "");	//remove ansi escape sequence \u001b[33m
-		//console.log("JSON prepared: " + result);
+		console.log("JSON prepared: " + result);
 
 		return JSON.parse(result);
 	} catch (e) {

@@ -124,6 +124,7 @@ function get_application_details(appName, execSync) {
 		result = result.replace(/\u001b\[32m/g, "");	//remove ansi escape sequence \u001b[32m
 		result = result.replace(/\u001b\[33m/g, "");	//remove ansi escape sequence \u001b[39m
 		result = result.replace(/\u001b\[39m/g, "");	//remove ansi escape sequence \u001b[33m
+		result = result.replace(/\"\"/g, "\"");			//replace "" by "
 		console.log("JSON prepared: " + result);
 
 		return JSON.parse(result);

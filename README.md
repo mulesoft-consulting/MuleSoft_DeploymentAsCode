@@ -2,7 +2,7 @@
 
 Once you have declared your deployment target state in a file, the target state can be realised simply by committing the file to a source control system. MuleSoft IaC Framework will parse the file (deployment descriptor) and compare with the environment and make the necessary changes.  For example, increase the number of workers in CloudHub for an application.
 
-/diagram.png
+![Deployment Pipeline](images/diagram.png "Deployment Pipeline")
 
 The source code repository for environment management is indeed
 

@@ -1,19 +1,22 @@
 # Mule Deployments as Code
 
-Once you have declared your deployment target state in a file, the target state can be realised simply by committing the file to a source control system. MuleSoft IaC Framework will parse the file (deployment descriptor) and compare with the environment and make the necessary changes.  For example, increase the number of workers in CloudHub for an application.
+## Introduction
+Once you have declared your deployment target state in a file, the target state can be realised simply by committing the file to a source control system. Mule DaC framework will parse the file (deployment descriptor) and compare with the environment and make the necessary changes.  For example, increase the number of workers in CloudHub for an application.
 
-![Deployment Pipeline](images/diagram.png "Deployment Pipeline")
+![Deployment Pipeline](images/deployment_pipeline.png "Deployment Pipeline")
 
-The source code repository for environment management is indeed
+Adopt the framework as part of your **DevOps and CI/CD pipeline**.
+
+![Build and Deployment](images/build_and_deployment.png "Build and Deployment") 
+
+The source code repository for environment management is separate from the application source code.
 
 ### The main advantages of the [Infrastructure as Code](https://en.wikipedia.org/wiki/Infrastructure_as_Code) approach:
 
-- Know the deployment configuration of your environment any given time.
-- Reduces risk of single micro services deployment as the tool allows for rollback to previously known state.
-- Also, allows to groups multiple artefacts to be deployed together.
-- Compare configuration between environments
-- Decouple build and integration of code and promotion of code through different environments.
--
+- Framework allows for rollback to previously known state through [git revert](https://git-scm.com/docs/git-revert).
+- Allows you deploy multiple applications update together or if you prefer a single application update.
+- Decouple build and the promotion of code (binary) through the environments. 
+- Compare configuration between environments and Know the deployment configuration of your environment any given time.
 
 ### Example of deployment descriptor file for CloudHub:
 Target state is defined in the deployment descriptor file.
@@ -77,7 +80,7 @@ Use the same command to trigger deployment from your local development workstati
     * Applications properties
 1. Commit and push
    
-### How to update `Properties` for an application?
+### How do I update application properties?
 Application Properties are maintained based on a folder structure convention. If the property file is empty, no properties will be updated during deployment.
 
 ```
@@ -125,6 +128,6 @@ Anypoint-CLI is written in node.js hence the framework has been written in node.
 - Create a branch per environment 
 - No merging between branches
 
-## Keywords:
-DevOps, Automated deployment, Infrastructure as Code
-
+## Contributors
+- Jeyaram Deivachandran
+- Igor Repka

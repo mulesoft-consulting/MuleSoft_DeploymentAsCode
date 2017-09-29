@@ -101,7 +101,7 @@ app_properties/really-cool-api-v1/really-cool-api-dev.properties
 | Application properties | CloudHub | Completed | |
 | Worker Configuration | CloudHub | Completed | runtime version, worker size, num of workers  |
 | CloudHub properties | CloudHub |  | persistence queue, static ips |
-| [Default configuration for CircelCI](.circleci/) | CircleCI | Completed | |
+| [Default configuration for CircelCI](https://github.com/mulesoft-consulting/MuleSoft_DeploymentAsCode/tree/master/.circleci) | CircleCI | Completed | |
 | Create a full example with sample apps | CloudHub |  |  |
 | Deploy Applications | Anypoint Runtime Manager  |  | |
 | Application properties | Anypoint Runtime Manager |  | |

@@ -1,72 +1,130 @@
-# Mule CI
+# Mule Deployments as Code
 
-MuleSoft Anypoint Platform application deployment and runtime configuration.
+Once you have declared your deployment target state in a file, the target state can be realised simply by committing the file to a source control system. MuleSoft IaC Framework will parse the file (deployment descriptor) and compare with the environment and make the necessary changes.  For example, increase the number of workers in CloudHub for an application.
 
-## Documentation
+/diagram.png
 
-Deployment uses `Command Line Interface for Anypoint Platform` [Anypoint-CLI](https://docs.mulesoft.com/runtime-manager/anypoint-platform-cli) to:
-* Get information about deployed application
-* Update application runtime, e.g. number of Workers
-* Update or deploy application.
+The source code repository for environment management is indeed
 
-Configuration file `deployment_descriptor.yml` drives the deployment execution as per the logic below:
+### The main advantages of the [Infrastructure as Code](https://en.wikipedia.org/wiki/Infrastructure_as_Code) approach:
 
-* If there is no application deployed with the same name as defined by field `name`, deploy a new application on the runtime. Runtime configuration is read from the file and applied.
-* If application is already deployed, the follwing application and runtime properties are evaluated:
-    * Application version - field `packageName` from configuration file is used to compare application version. `This assumes that application version is part of the application package name.`
-    * Worker size
-    * Number of Workers
-    * Runtime
-    * Region
-    * Properties
+- Know the deployment configuration of your environment any given time.
+- Reduces risk of single micro services deployment as the tool allows for rollback to previously known state.
+- Also, allows to groups multiple artefacts to be deployed together.
+- Compare configuration between environments
+- Decouple build and integration of code and promotion of code through different environments.
+-
 
-In case there are differences identified in attributes mentioned above, the application update is triggered.
-
-## Usage
-
-To configure and trigger the deployment, `deployment_descriptor.yml` must be updated and committed to central repository. CI Server (e.g. Jenkins, CircleCI) could be either listening to changes and start deployment process after updated configuration file is delivered or scheduled for night builds (deployment configuration and scripts do not depend on CI configuration, despite the project contains CircleCI config file - CircleCI is preconfigured as part of the solution).
-
-#### Before the first run:
-
-Configuration file `deployment_descriptor.yml` must be updated:
-* **Env** - environment applications are deployed on (if configuration of another environment is required, the suggestion is to create a new branch from this repository - please, find Suggestion section at the end of the document).
-* **Business Group** - insert your Business Group, where your applications are deployed (or will be deployed).
-* **Applications** - configure the applications and runtime details.
-
-Following environment variables must be configured on CI server:
-* Deployer's credentials used to login to Anypoint Platform
-   * anypoint_username
-   * anypoint_password
-
-#### How to update `Properties` of your application:
-Application Properties are maintained as part of this repository and are stored in the folder that follows naming conventions as described below.
-
+### Example of deployment descriptor file for CloudHub:
+Target state is defined in the deployment descriptor file.
+```yaml
+CloudHub:  
+  Env: "DEV"
+  BusinessGroup: "MuleSoft"
+  Applications:
+    -
+      name: "really-cool-api-v1"
+      packageName: "really-cool-api-1.0.0-SNAPSHOT.zip"
+      worker-size: "0.1"
+      num-of-workers: "2"
+      runtime: "3.8.5"
+      region: "eu-west-1"
+      properties: "really-cool-api-dev.properties"
+      repo_endpoint: 'https://link-to-your-maven-repository.com/snapshots/'
+    -
+      name: "another-really-cool-api-v1"
+      packageName: "another-really-cool-api-1.0.0-SNAPSHOT.zip"
+      worker-size: "1"
+      num-of-workers: "1"
+      runtime: "3.8.5"
+      region: "eu-west-1"
+      properties: "another-really-cool-api-1.0.0-dev.properties"
+      repo_endpoint: 'https://link-to-your-maven-repository.com/snapshots/'
 ```
-app_properties/[app.name]/[app.name]-[branch].properties
 
-Example:
-app_properties/bid-processing-ir-ecotricity/bid-processing-ir-ecotricity-branch1.properties
+## Framework Logic
 
-Where:
-app.name == bid-processing-ir-ecotricity
-branch == branch1 (this is NOT the branch of this repository, this is the branch of the repository where application source code is managed).
-```
-Important note: `app.name` is the `name` field in `deployment_descriptor.yml`
+* If the **application is not already deployed** then deploy the application. 
+    * Field `name` is used as the unique identifier for the application. 
+* If the **application is already deployed**, then update deployment if there are any changes in:
+    * Application version
+        * Field `packageName` is used to compare application version. The application version will be parsed using the maven convention.
+    * Worker Configuration
+        * Worker size
+        * Number of Workers
+        * Runtime
+        * Region
+    * Application Properties
+    * CloudHub Properties
 
-If the property file is empty no properties will be updated on the server.
+## How do I get started?
 
-
-#### Call the deployment scripts manually (from local machine or outside the CI server)
+1. Create source code repository to host your configuration or fork this repository.
+1. Create a branch for the environment. Each environment will require a branch. 
+1. Copy of the contents of this repository into your branch if you did not fork this repository.
+1. Configure your CI-Server and trigger execution on commit
 ```sh
 $ .muleci/deployment.sh deployment_descriptor.yml
 ```
+Use the same command to trigger deployment from your local development workstation.
+1. Configure the Anypoint platform credentials as environment variables in your CI server:
+    * anypoint_username
+    * anypoint_password
+1. Update `deployment_descriptor.yml` with:
+    * Env
+    * Business Group
+    * Applications
+    * Applications properties
+1. Commit and push
+   
+### How to update `Properties` for an application?
+Application Properties are maintained based on a folder structure convention. If the property file is empty, no properties will be updated during deployment.
 
-You need to install following libraries to run the deployment script: 
-* Node.js
-* Anypoint-CLI
+```
+app_properties/[app.name]/[app.name]-[branch].properties
+```
+* `app.name` is the `name` field in `deployment_descriptor.yml`
 
-# Suggestion
-Suggestion is to create a separate branch of this deployment project per each environment, so the environment specific settings could be maintained. The merge between the branches should not be required as the only expected changes are related to deployment environment itself.
+Example:
+```
+app_properties/really-cool-api-v1/really-cool-api-dev.properties
+```
 
+## Roadmap
 
-# TODOs
+| Feature | Deployment Target | Status  | Additional details |
+|:--|:--|:--|
+| Deploy Application  | CloudHub  | Completed | |
+| Application properties | CloudHub | Completed | |
+| Worker Configuration | CloudHub | Completed | runtime version, worker size, num of workers  |
+| CloudHub properties | CloudHub |  | persistence queue, static ips |
+| Default configuration for CircelCI | CircleCI | Completed | |
+| Create a full example with sample apps | CloudHub |  |  |
+| Deploy Applications | Anypoint Runtime Manager  |  | |
+| Application properties | Anypoint Runtime Manager |  | |
+
+## Pre-requisites:
+- Anypoint-cli
+- Nodes.js
+- CI or automation server
+    - Such as Jenkins, Bamboo, CirecleCi, Ansible, Chef, Puppet etc.
+- Build pipeline that published build artefacts into a store
+- Store for application binaries
+    -  Preferably maven repository server, such as Nexus, JFrog, etc.
+
+#### Anypoint-cli
+Command Line Interface for Anypoint Platform([Anypoint-CLI](https://docs.mulesoft.com/runtime-manager/anypoint-platform-cli)) is used to:
+* Get information about deployed applications.
+* Update application runtime, e.g. number of Workers.
+* Update or deploy application.
+
+#### Node.js
+Anypoint-CLI is written in node.js hence the framework has been written in node.js to reduce dependencies.
+
+## Recommendations:
+- Create a branch per environment 
+- No merging between branches
+
+## Keywords:
+DevOps, Automated deployment, Infrastructure as Code
+

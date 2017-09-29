@@ -101,14 +101,14 @@ app_properties/really-cool-api-v1/really-cool-api-dev.properties
 | Application properties | CloudHub | Completed | |
 | Worker Configuration | CloudHub | Completed | runtime version, worker size, num of workers  |
 | CloudHub properties | CloudHub |  | persistence queue, static ips |
-| Default configuration for CircelCI | CircleCI | Completed | |
+| [Default configuration for CircelCI](.circleci/) | CircleCI | Completed | |
 | Create a full example with sample apps | CloudHub |  |  |
 | Deploy Applications | Anypoint Runtime Manager  |  | |
 | Application properties | Anypoint Runtime Manager |  | |
 
 ## Pre-requisites:
-- Anypoint-cli
-- Nodes.js
+- [Anypoint-cli](https://docs.mulesoft.com/runtime-manager/anypoint-platform-cli#installation)
+- [Nodes.js](https://nodejs.org/)
 - CI or automation server
     - Such as Jenkins, Bamboo, CirecleCi, Ansible, Chef, Puppet etc.
 - Build pipeline that published build artefacts into a store

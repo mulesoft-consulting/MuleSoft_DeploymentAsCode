@@ -93,7 +93,7 @@ app_properties/really-cool-api-v1/really-cool-api-dev.properties
 ## Roadmap
 
 | Feature | Deployment Target | Status  | Additional details |
-|---|---|---|
+| --- | --- | --- |
 | Deploy Application  | CloudHub  | Completed | |
 | Application properties | CloudHub | Completed | |
 | Worker Configuration | CloudHub | Completed | runtime version, worker size, num of workers  |

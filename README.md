@@ -32,7 +32,7 @@ CloudHub:
       num-of-workers: "2"
       runtime: "3.8.5"
       region: "eu-west-1"
-      properties: "really-cool-api-dev.properties"
+      properties: "really-cool-api-v1-dev.properties"
       repo_endpoint: 'https://link-to-your-maven-repository.com/snapshots/'
     -
       name: "another-really-cool-api-v1"
@@ -41,7 +41,7 @@ CloudHub:
       num-of-workers: "1"
       runtime: "3.8.5"
       region: "eu-west-1"
-      properties: "another-really-cool-api-1.0.0-dev.properties"
+      properties: "another-really-cool-api-v1-dev.properties"
       repo_endpoint: 'https://link-to-your-maven-repository.com/snapshots/'
 ```
 

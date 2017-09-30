@@ -5,19 +5,28 @@ Once you have declared your deployment target state in a file, the target state 
 
 ![Deployment Pipeline](images/deployment_pipeline.png "Deployment Pipeline")
 
-Adopt the framework as part of your **DevOps and CI/CD pipeline**.
+## Adopt as part of your **DevOps and CI/CD pipeline**.
 
 ![Build and Deployment](images/build_and_deployment.png "Build and Deployment") 
 
 The source code repository for environment management is separate from the application source code.
 
-### The main advantages of the [Infrastructure as Code](https://en.wikipedia.org/wiki/Infrastructure_as_Code) approach:
+## Why Adopt?
 
-- Framework allows for rollback to previously known state through [git revert](https://git-scm.com/docs/git-revert).
-- Allows you deploy multiple applications update together or if you prefer a single application update.
-- Decouple build and the promotion of code (binary) through the environments. 
-- Compare configuration between environments and Know the deployment configuration of your environment any given time.
+### The main advantages of the [Infrastructure as Code](https://en.wikipedia.org/wiki/Infrastructure_as_Code) approach allows for:
 
+-  rollback to previously known state through [git revert](https://git-scm.com/docs/git-revert).
+- deployment of multiple applications update together or if you prefer a single application update.
+- decouple build from deployment and the promotion of code (binary) through the environments. 
+- comparison of configuration between environments and know the deployment configuration of your environment any given time.
+
+### Why not just deploy from a environment branch from your application source code repository?
+
+- A single binary is promoted through the environments which reduces human error and delay in merging from a feature branch into a environment branch.
+
+- This framework can be used as part of strategy for [Imuntable Server](https://martinfowler.com/bliki/ImmutableServer.html) and [PhoenixServer](https://martinfowler.com/bliki/PhoenixServer.html) which reduces [configuration drift](http://kief.com/configuration-drift.html)
+
+## How does it work?
 ### Example of deployment descriptor file for CloudHub:
 Target state is defined in the deployment descriptor file.
 ```yaml
@@ -45,7 +54,7 @@ CloudHub:
       repo_endpoint: 'https://link-to-your-maven-repository.com/snapshots/'
 ```
 
-## Framework Logic
+### Framework Logic
 
 * If the **application is not already deployed** then deploy the application. 
     * Field `name` is used as the unique identifier for the application. 
@@ -108,22 +117,25 @@ More info on [Git Project page](https://github.com/mulesoft-consulting/MuleSoft_
 | Application properties | Anypoint Runtime Manager |  | |
 
 ## Pre-requisites:
-- [Anypoint-cli](https://docs.mulesoft.com/runtime-manager/anypoint-platform-cli#installation)
-- [Nodes.js](https://nodejs.org/)
-- CI or automation server
-    - Such as Jenkins, Bamboo, CirecleCi, Ansible, Chef, Puppet etc.
-- Build pipeline that published build artefacts into a store
-- Store for application binaries
-    -  Preferably maven repository server, such as Nexus, JFrog, etc.
 
-#### Anypoint-cli
+#### [Anypoint-cli](https://docs.mulesoft.com/runtime-manager/anypoint-platform-cli#installation)
 Command Line Interface for Anypoint Platform([Anypoint-CLI](https://docs.mulesoft.com/runtime-manager/anypoint-platform-cli)) is used to:
 * Get information about deployed applications.
 * Update application runtime, e.g. number of Workers.
 * Update or deploy application.
 
-#### Node.js
-Anypoint-CLI is written in node.js hence the framework has been written in node.js to reduce dependencies.
+#### [Nodes.js](https://nodejs.org/)
+Anypoint-CLI is written in Nodes.js hence the framework has been written in Node.js to reduce dependencies.
+
+#### CI or automation server
+   - Such as Jenkins, Bamboo, CirecleCi, Ansible, Chef, Puppet etc.
+
+#### Build pipeline
+Build pipeline that published build artefacts into a store
+
+#### Artefacts store/repository
+- Store for application binaries
+    -  Preferably maven repository server, such as Nexus, JFrog, etc.
 
 ## Recommendations:
 - Create a branch per environment 

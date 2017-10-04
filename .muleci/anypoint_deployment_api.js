@@ -36,7 +36,7 @@ console.log("Deployment is running for environment: %s, Business Group: %s", ENV
 
 //run deployment logic for every application in config file
 for (const app of objConfig.CloudHub.Applications) {
-	deploy(app);
+	if(app != null) deploy(app);
 }
 
 console.log('--- Anypoint API: all changes applied successfully');

@@ -13,6 +13,7 @@ filename="$1"
 echo '=== Invoke Anypoint API'
 { #try
 	node .muleci/anypoint_deployment_api.js $filename
+	node .muleci/anypoint_deployment_arm_api.js $filename
 } || { #catch
 	echo "=== ERROR: Error during deployment"
 	exit 1

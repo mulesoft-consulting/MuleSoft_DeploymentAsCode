@@ -86,7 +86,6 @@ module.exports.downloadPackage 				= downloadPackage;
 module.exports.extractFilenameFromArguments = extractFilenameFromArguments;
 module.exports.PACKAGE_FOLDER				= PACKAGE_FOLDER;
 
-module.exports.yaml = yaml;
 module.exports.fs = fs;
 module.exports.util = util;
 module.exports.exec = exec;

@@ -10,26 +10,11 @@
 console.log('--- Anypoint API is being invoked');
 
 //load libraries
-const yaml = require('js-yaml');
-const fs = require('fs');
-const util = require('util');
+const muleCommon = require('./mule_common');
 
-const PACKAGE_FOLDER = "packages/";
-const PROPERTIES_FOLDER = "app_properties/";
+var filename = muleCommon.extractFilenameFromArguments();
+var objConfig = muleCommon.parse_deployment_config_file(filename);
 
-//Child process for calling anypoint-cli
-var exec = require('child_process').execSync;
-
-//get filename - passed as argument
-var filename = process.argv[2];
-if(filename) {
-	console.log('File contains all deployment config properties: ' + filename);
-} else {
-	console.error('ERROR: File argument is misssing!');	
-	process.exit(-1);
-}
-
-var objConfig = parse_deployment_config_file(filename);
 const ENV = objConfig.CloudHub.Env;
 const ORGID = objConfig.CloudHub.BusinessGroup;
 console.log("Deployment is running for environment: %s, Business Group: %s", ENV, ORGID);
@@ -51,14 +36,14 @@ console.log('--- Anypoint API: all changes applied successfully');
  */
 function deploy(application) {
 	console.log("\u001b[33m### Running deployment of application\u001b[39m: " + application.name);
-	var cloudAppDetails = get_application_details(application.name, exec);
+	var cloudAppDetails = get_application_details(application.name, muleCommon.exec);
 	
 	if(cloudAppDetails == null) { //trigger new application deployment
 		console.log("Deploying: " + application.name);
-		deploy_new_application(application, exec); 		
+		deploy_new_application(application, muleCommon.exec); 		
 	} else if(is_application_update_required(application, cloudAppDetails)) { //redeploy or modify application
 		console.log("Updating: " + application.name);
-		redeploy_or_modify_application(application, exec);
+		redeploy_or_modify_application(application, muleCommon.exec);
 	} else {
 		console.log("Application does NOT require any updates " +
 			"- the version on the CloudHub is the same as info available in deployment descriptor file: " +
@@ -68,42 +53,11 @@ function deploy(application) {
 }
 
 /*
- * Downloads the package of application from provided repository
- */
-function downloadPackage(filename, repoEndpoint, execSync) {
-	console.log("Downloading the package for: " + filename);
-	var command = util.format('curl -Lk --create-dirs -o %s%s ' +
-		'%s%s', PACKAGE_FOLDER, filename, repoEndpoint, filename);
-	console.log("Command is being executed: " + command);
-	try {
-		execSync(command);
-	} catch (e) {
-		handle_error(e, "Package downloading failed.");
-	}
-}
-
-/*
- * Function parses deployment descriptor config file.
- * Object with config details is returned.
- */
-function parse_deployment_config_file(filename) {
-	try {
-    	const config = yaml.safeLoad(fs.readFileSync(filename, 'utf8'));
-    	const indentedJson = JSON.stringify(config, null, 4);
-    	console.log(indentedJson);
-    	return JSON.parse(indentedJson);
-	} catch (e) {
-    	console.log(e);
-    	process.exit(-1);
-	}
-}
-
-/*
  * Function returns application details from CloudHub. 
  * If this is the first deployment of application null is returned.
  */
 function get_application_details(appName, execSync) {
-	var command = util.format('anypoint-cli ' + 
+	var command = muleCommon.util.format('anypoint-cli ' + 
 			'--username=$anypoint_username --password=$anypoint_password ' + 
 			'--environment=%s ' +
 			'--organization=%s ' +
@@ -136,7 +90,7 @@ function get_application_details(appName, execSync) {
 			console.log("The deployment is running for the application that has not been deployed.");
 			return null;
 		} else { //unknown error
-			handle_error(e);
+			muleCommon.handle_error(e);
 		}
 	}
 }
@@ -177,16 +131,16 @@ function is_application_update_required(app, cloudAppDetails) {
 	}
 
 	//compare properties
-	const propertiesFile = get_property_file_path(app);	
+	const propertiesFile = muleCommon.get_property_file_path(app);	
 	try {  
     	//check if properties file exists in repo and if properties exit on CloudHub
-    	if (!fs.existsSync(propertiesFile) && properties != null && typeof properties != 'undefined') {
+    	if (!muleCommon.fs.existsSync(propertiesFile) && properties != null && typeof properties != 'undefined') {
     		console.log("Properties file has not been found! Properties will NOT be updated despite there are properties " +
     			"detected on CloudHub.");
     		return false;
 		}
 
-    	var propertiesData = fs.readFileSync(propertiesFile, 'utf8');
+    	var propertiesData = muleCommon.fs.readFileSync(propertiesFile, 'utf8');
     	if(propertiesData != null && propertiesData != "") {
     		console.log("Properties from property file %s:\n%s\n", propertiesFile, propertiesData);    
     		var propertiesArray = propertiesData.split("\n");
@@ -211,7 +165,7 @@ function is_application_update_required(app, cloudAppDetails) {
     		console.log("Property file: %s is empty.", propertiesFile);
     	}    	
 	} catch(e) {
-    	handle_error(e, "Enable to ready property file for application: " + app.name);
+    	muleCommon.handle_error(e, "Enable to ready property file for application: " + app.name);
 	}
 
 	return false;
@@ -221,9 +175,9 @@ function is_application_update_required(app, cloudAppDetails) {
  * Function deploys new application on CloudHub
  */
 function deploy_new_application(app, execSync) {
-	downloadPackage(app.packageName, app.repo_endpoint, exec);
+	muleCommon.downloadPackage(app.packageName, app.repo_endpoint, muleCommon.exec);
 
-	var command = util.format(
+	var command = muleCommon.util.format(
 		'anypoint-cli ' + 
 			'--username=$anypoint_username --password=$anypoint_password ' + 
 			'--environment=%s ' +
@@ -231,18 +185,18 @@ function deploy_new_application(app, execSync) {
 			//'--output json ' +
 			'runtime-mgr cloudhub-application deploy %s %s%s ' + 
 			'--workers %s --workerSize %s --region %s --runtime %s',
-			ENV, ORGID, app.name, PACKAGE_FOLDER, app.packageName, app["num-of-workers"], app["worker-size"],
+			ENV, ORGID, app.name, muleCommon.PACKAGE_FOLDER, app.packageName, app["num-of-workers"], app["worker-size"],
 			app.region, app.runtime);
 
 	//if properties file exists attach it to the command to update CloudHub
-	if(fs.existsSync(get_property_file_path(app))) {
-		command = util.format(command + " --propertiesFile %s", get_property_file_path(app));
+	if(muleCommon.fs.existsSync(muleCommon.get_property_file_path(app))) {
+		command = muleCommon.util.format(command + " --propertiesFile %s", muleCommon.get_property_file_path(app));
 	}
 
 	try {
 		var result = execSync(command);
 	} catch (e) {
-		handle_error(e, "Cannot deploy new application: " + app.name);
+		muleCommon.handle_error(e, "Cannot deploy new application: " + app.name);
 	}
 }
 
@@ -250,9 +204,9 @@ function deploy_new_application(app, execSync) {
  * Modifies / redeploys the application on CloudHub
  */
 function redeploy_or_modify_application(app, execSync) {
-	downloadPackage(app.packageName, app.repo_endpoint, exec);
+	muleCommon.downloadPackage(app.packageName, app.repo_endpoint, muleCommon.exec);
 
-	var command = util.format(
+	var command = muleCommon.util.format(
 		'anypoint-cli ' + 
 			'--username=$anypoint_username --password=$anypoint_password ' + 
 			'--environment=%s ' +
@@ -260,35 +214,17 @@ function redeploy_or_modify_application(app, execSync) {
 			//'--output json ' +
 			'runtime-mgr cloudhub-application modify %s %s%s ' +
 			'--workers %s --workerSize %s --region %s --runtime %s',
-			ENV, ORGID, app.name, PACKAGE_FOLDER, app.packageName, app["num-of-workers"], app["worker-size"],
+			ENV, ORGID, app.name, muleCommon.PACKAGE_FOLDER, app.packageName, app["num-of-workers"], app["worker-size"],
 			app.region, app.runtime);
 	
 	//if properties file exists attach it to the command to update CloudHub
-	if(fs.existsSync(get_property_file_path(app))) {
-		command = util.format(command + " --propertiesFile %s", get_property_file_path(app));
+	if(muleCommon.fs.existsSync(muleCommon.get_property_file_path(app))) {
+		command = muleCommon.util.format(command + " --propertiesFile %s", muleCommon.get_property_file_path(app));
 	}
 
 	try {
 		var result = execSync(command);
 	} catch (e) {
-		handle_error(e, "Cannot update the application: " + app.name);
+		muleCommon.handle_error(e, "Cannot update the application: " + app.name);
 	}
-}
-
-/*
- * Returns relative path to application properties for application passed as an input
- */
-function get_property_file_path(app) {
-	return PROPERTIES_FOLDER+app.name+"/"+app.properties;
-}
-
-/*
- * Exception handling
- */
-function handle_error(e, message) {
-	var msg = typeof message != 'undefined' ? message : "";
-	console.log("Unknown error: " + msg + "\n" + e);
-	console.log("Unknown error - stderr: " + e.stderr);
-	console.log("Unknown error - stdout: " + e.stdout);	
-	process.exit(-1);
 }

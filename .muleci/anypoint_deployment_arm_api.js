@@ -3,7 +3,7 @@
 // === Email: igor.repka@mulesoft.com                                              ===
 // === version: 0.1					                                               ===
 // === Description: 					                                           ===
-//     Script manages On-prem deployment via Runtime Manager of applications       ===
+//     Script manages On-Prem deployment via Runtime Manager of applications       ===
 //     configured in deployment descriptor configuration file.	 				   ===	
 // ===================================================================================
 
@@ -32,7 +32,7 @@ console.log('--- Anypoint API: all changes applied successfully');
 
 /*
  * Main function for deployment logic.
- * Deploys or redeploys application on CloudHub
+ * Deploys or redeploys application on On-Prem server
  */
 function deploy(application) {
 	console.log("\u001b[33m### Running deployment of application\u001b[39m: " + application.name);
@@ -49,7 +49,7 @@ function deploy(application) {
 }
 
 /*
- * Function returns application details from CloudHub. 
+ * Function returns application details from On-Prem. 
  * If this is the first deployment of application null is returned.
  */
 function get_application_details(appName, execSync) {
@@ -79,7 +79,7 @@ function get_application_details(appName, execSync) {
 }
 
 /*
- * Function deploys new application on CloudHub
+ * Function deploys new application on On-Prem
  */
 function deploy_new_application(app, execSync) {
 	muleCommon.downloadPackage(app.packageName, app.repo_endpoint, muleCommon.exec);
@@ -93,11 +93,6 @@ function deploy_new_application(app, execSync) {
 			'runtime-mgr standalone-application deploy %s %s %s%s',
 			ENV, ORGID, app.target, app.name, muleCommon.PACKAGE_FOLDER, app.packageName);
 
-	//if properties file exists attach it to the command to update CloudHub
-	if(muleCommon.fs.existsSync(muleCommon.get_property_file_path(app))) {
-		command = muleCommon.util.format(command + " --propertiesFile %s", muleCommon.get_property_file_path(app));
-	}
-
 	try {
 		var result = execSync(command);
 	} catch (e) {
@@ -106,7 +101,7 @@ function deploy_new_application(app, execSync) {
 }
 
 /*
- * Modifies / redeploys the application on CloudHub
+ * Modifies / redeploys the application on On-Prem
  */
 function redeploy_or_modify_application(app, execSync) {
 	muleCommon.downloadPackage(app.packageName, app.repo_endpoint, muleCommon.exec);
@@ -119,11 +114,6 @@ function redeploy_or_modify_application(app, execSync) {
 			//'--output json ' +
 			'runtime-mgr standalone-application modify %s %s%s',
 			ENV, ORGID, app.name, muleCommon.PACKAGE_FOLDER, app.packageName);
-	
-	//if properties file exists attach it to the command to update CloudHub
-	if(muleCommon.fs.existsSync(muleCommon.get_property_file_path(app))) {
-		command = muleCommon.util.format(command + " --propertiesFile %s", muleCommon.get_property_file_path(app));
-	}
 
 	try {
 		var result = execSync(command);

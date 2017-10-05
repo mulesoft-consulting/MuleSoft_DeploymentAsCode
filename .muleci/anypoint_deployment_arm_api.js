@@ -16,7 +16,7 @@ var filename = muleCommon.extractFilenameFromArguments();
 var objConfig = muleCommon.parse_deployment_config_file(filename);
 
 const ENV = objConfig.OnPrem.Env;
-const ORGID = objConfig.OnPrem.BusinessGroup;
+const ORGID = muleCommon.escapeWhiteSpaces(objConfig.OnPrem.BusinessGroup);
 console.log("Deployment is running for environment: %s, Business Group: %s", ENV, ORGID);
 
 //run deployment logic for every application in config file

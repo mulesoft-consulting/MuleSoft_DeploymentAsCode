@@ -77,6 +77,13 @@ function extractFilenameFromArguments() {
 }
 
 /*
+ * Returns the string with escaped white space
+ */
+function escapeWhiteSpaces(txt) {
+	return txt.replace(/ /g, '\\ ');
+}
+
+/*
  * Functionality exported by this module
  */
 module.exports.get_property_file_path 		= get_property_file_path;
@@ -85,6 +92,7 @@ module.exports.parse_deployment_config_file = parse_deployment_config_file;
 module.exports.downloadPackage 				= downloadPackage;
 module.exports.extractFilenameFromArguments = extractFilenameFromArguments;
 module.exports.PACKAGE_FOLDER				= PACKAGE_FOLDER;
+module.exports.escapeWhiteSpaces			= escapeWhiteSpaces;
 
 module.exports.fs = fs;
 module.exports.util = util;

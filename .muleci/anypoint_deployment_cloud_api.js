@@ -16,7 +16,7 @@ var filename = muleCommon.extractFilenameFromArguments();
 var objConfig = muleCommon.parse_deployment_config_file(filename);
 
 const ENV = objConfig.CloudHub.Env;
-const ORGID = objConfig.CloudHub.BusinessGroup;
+const ORGID = muleCommon.escapeWhiteSpaces(objConfig.CloudHub.BusinessGroup);
 console.log("Deployment is running for environment: %s, Business Group: %s", ENV, ORGID);
 
 //run deployment logic for every application in config file

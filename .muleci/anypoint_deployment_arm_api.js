@@ -21,7 +21,10 @@ console.log("Deployment is running for environment: %s, Business Group: %s", ENV
 
 //run deployment logic for every application in config file
 for (const app of objConfig.OnPrem.Applications) {
-	if(app != null) deploy(app);
+	if(app != null) {
+		//copyAppPropertyFile(app);
+		deploy(app);
+	}
 }
 
 console.log('--- Anypoint API: all changes applied successfully');
@@ -29,6 +32,14 @@ console.log('--- Anypoint API: all changes applied successfully');
 // ====================================
 // === function declaration section ===
 // ====================================
+
+function copyAppPropertyFile(application) {
+	var filePath = muleCommon.get_property_file_path(application);
+	console.log("App property path to be copied: " + filePath);
+	//scp /file/to/send username@remote:/where/to/put
+	var command = muleCommon.util.format('scp %s ', filePath);
+	var result = execSync(command);
+}
 
 /*
  * Main function for deployment logic.

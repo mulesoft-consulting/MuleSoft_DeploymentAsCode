@@ -6,6 +6,10 @@ pipeline {
         anypoint_password     = credentials('anypoint_password')
     } 
 
+    triggers {
+        pollSCM('* * * * *')
+    }
+
     stages {
     
     	stage('ARM Deployment') {

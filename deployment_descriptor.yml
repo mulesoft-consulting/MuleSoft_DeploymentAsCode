@@ -1,33 +1,16 @@
 CloudHub:
-  Env: "DEV"
-  BusinessGroup: "MuleSoft"
-  Applications:
-    -
-      name: "really-cool-api-v1"
-      packageName: "really-cool-api-1.0.0-SNAPSHOT.zip"
-      worker-size: "0.1"
-      num-of-workers: "2"
-      runtime: "3.8.5"
-      region: "eu-west-1"
-      properties: "really-cool-api-v1-dev.properties"
-      repo_endpoint: 'https://link-to-your-maven-repository.com/snapshots/'
-    -
-      name: "another-really-cool-api-v1"
-      packageName: "another-really-cool-api-1.0.0-SNAPSHOT.zip"
-      worker-size: "1"
-      num-of-workers: "1"
-      runtime: "3.8.5"
-      region: "eu-west-1"
-      properties: "another-really-cool-api-v1-dev.properties"
-      repo_endpoint: 'https://link-to-your-maven-repository.com/snapshots/'
-
-OnPrem:
   Env: "Sandbox"
   BusinessGroup: "MuleSoft"
   Applications:
     -
-      name: "hello-world-api-v1"
-      packageName: "hello-world-1.0.0.zip"
+
+OnPrem:
+  Env: "DEV"
+  BusinessGroup: "MuleSoft"
+  Applications:
+    -
+      name: "cicd_buil_hello_world"
+      packageName: "hello-world-api-1.0.4.zip"
       properties: "hello-world-api-v1-dev.properties"
-      repo_endpoint: 'http://localhost:8888/repository/maven-releases/com/mule/deploy/test/hello-world/1.0.0/'
-      target: My-Cluster
+      repo_endpoint: 'http://localhost:8888/repository/maven-releases/com/mule/deploy/test/hello-world-api/1.0.4/'
+      target: snow_3_9_0

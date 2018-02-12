@@ -5,12 +5,12 @@ CloudHub:
     -
 
 OnPrem:
-  Env: "DEV"
-  BusinessGroup: "MuleSoft"
+  Env: "TEST"
+  BusinessGroup: "IRMulesoftCrowd"
   Applications:
     -
       name: "cicd_buil_hello_world_v2"
-      packageName: "hello-world-api-1.0.4.zip"
+      packageName: "hello-world-api-1.0.5.zip"
       properties: "hello-world-api-v1-dev.properties"
-      repo_endpoint: 'http://172.17.0.2:8081/repository/maven-releases/com/mule/deploy/test/hello-world-api/1.0.4/'
+      repo_endpoint: 'http://172.17.0.2:8081/repository/maven-releases/com/mule/deploy/test/hello-world-api/1.0.5/'
       target: snow_3_9_0

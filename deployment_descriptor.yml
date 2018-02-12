@@ -9,7 +9,7 @@ OnPrem:
   BusinessGroup: "MuleSoft"
   Applications:
     -
-      name: "cicd_buil_hello_world"
+      name: "cicd_buil_hello_world_v2"
       packageName: "hello-world-api-1.0.4.zip"
       properties: "hello-world-api-v1-dev.properties"
       repo_endpoint: 'http://172.17.0.2:8081/repository/maven-releases/com/mule/deploy/test/hello-world-api/1.0.4/'

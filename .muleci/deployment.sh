@@ -2,7 +2,7 @@ echo "=== Deployment has started! ==="
 
 #check input arguments
 if [[ $# -eq 0 ]] ; then
-    echo "ERROR: Please, pass the filename for deployment descritor as an argument!"
+    echo "ERROR: Please, pass the filename for deployment descriptor as an argument!"
     exit 1
 fi
 

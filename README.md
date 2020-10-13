@@ -24,7 +24,7 @@ The source code repository for environment management is separate from the appli
 
 - A single binary is promoted through the environments which reduces human error and delay in merging from a feature branch into a environment branch.
 
-- This framework can be used as part of strategy for [Imuntable Server](https://martinfowler.com/bliki/ImmutableServer.html) and [PhoenixServer](https://martinfowler.com/bliki/PhoenixServer.html) which reduces [configuration drift](http://kief.com/configuration-drift.html)
+- This framework can be used as part of strategy for [Immutable Server](https://martinfowler.com/bliki/ImmutableServer.html) and [PhoenixServer](https://martinfowler.com/bliki/PhoenixServer.html) which reduces [configuration drift](http://kief.com/configuration-drift.html)
 
 ## How does it work?
 ### Example of deployment descriptor file for CloudHub:
@@ -124,14 +124,14 @@ Command Line Interface for Anypoint Platform([Anypoint-CLI](https://docs.mulesof
 * Update application runtime, e.g. number of Workers.
 * Update or deploy application.
 
-#### [Nodes.js](https://nodejs.org/)
-Anypoint-CLI is written in Nodes.js hence the framework has been written in Node.js to reduce dependencies.
+#### [Node.js](https://nodejs.org/)
+Anypoint-CLI is written in Node.js hence the framework has been written in Node.js to reduce dependencies.
 
 #### CI or automation server
    - Such as Jenkins, Bamboo, CirecleCi, Ansible, Chef, Puppet etc.
 
 #### Build pipeline
-Build pipeline that published build artefacts into a store
+Build pipeline that published build artifacts into a store
 
 #### Artefacts store/repository
 - Store for application binaries
